@@ -37,7 +37,7 @@ export default function Hero() {
           "
         >
           <source
-            src="/images/hero/hero.mp4"
+            src="/images/hero/hero-web.mp4"
             type="video/mp4"
           />
         </video>

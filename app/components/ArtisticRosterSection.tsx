@@ -8,31 +8,31 @@ import { usePathname } from "next/navigation";
 const artists = [
   {
     image: "/media/artists/Julieta/julieta.jpg",
-    video: "/media/artists/Julieta/Julieta.mp4",
+    video: "/media/artists/Julieta/Julieta-web.mp4",
   },
   {
-    image: "/media/artists/Anto/anto.jpeg",
-    video: "/media/artists/Anto/anto.mp4",
+    image: "/media/artists/Anto/anto.JPEG",
+    video: "/media/artists/Anto/anto-web.mp4",
   },
   {
     image: "/media/artists/Maga/maga.jpeg",
-    video: "/media/artists/Maga/Maga.mp4",
+    video: "/media/artists/Maga/Maga-web.mp4",
   },
   {
     image: "/media/artists/Vero/verofoto.jpeg",
-    video: "/media/artists/Vero/vero.mp4",
+    video: "/media/artists/Vero/vero-web.mp4",
   },
   {
     image: "/media/artists/Emi/emi.jpeg",
-    video: "/media/artists/Emi/emimp4.mp4",
+    video: "/media/artists/Emi/emi-web.mp4",
   },
   {
     image: "/media/artists/Selene/selenejpeg.jpeg",
-    video: "/media/artists/Selene/Selenemp4.mp4",
+    video: "/media/artists/Selene/selene-web.mp4",
   },
   {
     image: "/media/artists/Sheila/sheilaJPEG.jpeg",
-    video: "/media/artists/Sheila/Sheila.mp4",
+    video: "/media/artists/Sheila/sheila-web.mp4",
   },
 ];
 
@@ -102,16 +102,11 @@ function ArtistCard({
             alt="Odaliscas Eventos artist"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className={`
-              object-cover
-              transition-all
-              duration-700
-              ${
-                isHovered
-                  ? "scale-105 opacity-0"
-                  : "scale-100 opacity-100"
-              }
-            `}
+            className={`object-cover transition-all duration-700 ${
+              isHovered
+                ? "scale-105 opacity-0"
+                : "scale-100 opacity-100"
+            }`}
           />
 
           <video
@@ -121,57 +116,22 @@ function ArtistCard({
             loop
             playsInline
             preload="metadata"
-            className={`
-              absolute
-              inset-0
-              h-full
-              w-full
-              object-contain
-              transition-all
-              duration-700
-              ${
-                isHovered
-                  ? "scale-100 opacity-100"
-                  : "scale-100 opacity-0"
-              }
-            `}
+            className={`absolute inset-0 h-full w-full object-contain transition-all duration-700 ${
+              isHovered
+                ? "scale-100 opacity-100"
+                : "scale-100 opacity-0"
+            }`}
           />
 
           <button
             type="button"
             onClick={toggleSound}
-            aria-label={
-              isMuted
-                ? "Turn sound on"
-                : "Mute video"
-            }
-            className={`
-              absolute
-              bottom-4
-              right-4
-              z-20
-              flex
-              h-10
-              w-10
-              items-center
-              justify-center
-              rounded-full
-              border
-              border-white/30
-              bg-black/60
-              text-sm
-              text-white
-              backdrop-blur-sm
-              transition-all
-              duration-300
-              hover:border-amber-400
-              hover:text-amber-400
-              ${
-                isHovered
-                  ? "opacity-100"
-                  : "pointer-events-none opacity-0"
-              }
-            `}
+            aria-label={isMuted ? "Turn sound on" : "Mute video"}
+            className={`absolute bottom-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-sm text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400 ${
+              isHovered
+                ? "opacity-100"
+                : "pointer-events-none opacity-0"
+            }`}
           >
             {isMuted ? "🔇" : "🔊"}
           </button>
@@ -192,7 +152,6 @@ function VideoCard({
   return (
     <FadeIn delay={delay}>
       <div className="overflow-hidden rounded-[24px] border border-white/10 bg-[#090909] transition duration-500 hover:border-amber-400/40">
-
         <div className="w-full overflow-hidden bg-black">
           <video
             src={video}
@@ -202,7 +161,6 @@ function VideoCard({
             className="block h-auto w-full"
           />
         </div>
-
       </div>
     </FadeIn>
   );
@@ -280,7 +238,7 @@ export default function ArtisticRosterSection() {
               <div className="flex justify-center overflow-hidden bg-black">
 
                 <video
-                  src="/media/artists/brian/Brian.mp4"
+                  src="/media/artists/brian/Brian-web2.mp4"
                   controls
                   playsInline
                   preload="metadata"
@@ -297,12 +255,12 @@ export default function ArtisticRosterSection() {
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
 
           <VideoCard
-            video="/media/live-music/videos/musica-ambiente.mp4"
+            video="/media/live-music/videos/musica-ambiente-web.mp4"
             delay={0.7}
           />
 
           <VideoCard
-            video="/media/sunset/videos/sunset.MOV"
+            video="/media/sunset/videos/sunset-web.mp4"
             delay={0.8}
           />
 

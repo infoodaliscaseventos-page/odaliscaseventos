@@ -1,13 +1,25 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
 export default function HeaderDesktop() {
-  const whatsappLink =
-    "https://wa.me/541162721696?text=Hola,%20quisiera%20solicitar%20una%20propuesta%20para%20un%20evento.";
+  const pathname = usePathname();
+  const isEnglish = pathname.startsWith("/en");
+
+  const whatsappText = isEnglish
+    ? "Hello, I would like to request a proposal for an event."
+    : "Hola, quisiera solicitar una propuesta para un evento.";
+
+  const whatsappLink = `https://wa.me/541162721696?text=${encodeURIComponent(
+    whatsappText
+  )}`;
 
   return (
     <div className="mx-auto hidden h-20 max-w-7xl items-center justify-between px-8 lg:flex">
 
       {/* Logo */}
 
-      <a href="#" className="flex items-center">
+      <a href={isEnglish ? "/en" : "/"} className="flex items-center">
         <img
           src="/images/logo/logo.png"
           alt="Odaliscas Eventos"
@@ -20,31 +32,31 @@ export default function HeaderDesktop() {
       <nav className="flex items-center gap-14 uppercase tracking-[0.24em] text-[15px] text-white">
 
         <a
-          href="#"
+          href={isEnglish ? "/en" : "/"}
           className="transition hover:text-amber-400"
         >
-          HOME
+          {isEnglish ? "HOME" : "INICIO"}
         </a>
 
         <a
-          href="#experiencias"
+          href={isEnglish ? "/en#experiencias" : "#experiencias"}
           className="transition hover:text-amber-400"
         >
-          EXPERIENCES
+          {isEnglish ? "EXPERIENCES" : "EXPERIENCIAS"}
         </a>
 
         <a
-          href="#nosotros"
+          href={isEnglish ? "/en#nosotros" : "#nosotros"}
           className="transition hover:text-amber-400"
         >
-          ABOUT US
+          {isEnglish ? "ABOUT US" : "NOSOTROS"}
         </a>
 
         <a
-          href="#contacto"
+          href={isEnglish ? "/en#contacto" : "#contacto"}
           className="transition hover:text-amber-400"
         >
-          CONTACT
+          {isEnglish ? "CONTACT" : "CONTACTO"}
         </a>
 
       </nav>
@@ -55,14 +67,22 @@ export default function HeaderDesktop() {
 
         <a
           href="/"
-          className="text-sm uppercase tracking-[0.2em] text-zinc-400 transition hover:text-amber-400"
+          className={`text-sm uppercase tracking-[0.2em] transition ${
+            isEnglish
+              ? "text-zinc-400 hover:text-amber-400"
+              : "text-amber-400 hover:text-amber-300"
+          }`}
         >
           ES
         </a>
 
         <a
           href="/en"
-          className="text-sm uppercase tracking-[0.2em] text-amber-400 transition hover:text-amber-300"
+          className={`text-sm uppercase tracking-[0.2em] transition ${
+            isEnglish
+              ? "text-amber-400 hover:text-amber-300"
+              : "text-zinc-400 hover:text-amber-400"
+          }`}
         >
           EN
         </a>
@@ -73,7 +93,7 @@ export default function HeaderDesktop() {
           rel="noopener noreferrer"
           className="rounded-full border border-amber-500 px-8 py-3 text-[13px] uppercase tracking-[0.22em] text-amber-400 transition-all duration-300 hover:bg-amber-500 hover:text-black"
         >
-          REQUEST A PROPOSAL
+          {isEnglish ? "REQUEST A PROPOSAL" : "SOLICITAR PROPUESTA"}
         </a>
 
       </div>
