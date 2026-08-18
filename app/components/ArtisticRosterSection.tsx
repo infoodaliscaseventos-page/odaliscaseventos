@@ -242,7 +242,7 @@ export default function ArtisticRosterSection() {
               <div className="flex justify-center overflow-hidden bg-black">
 
                 <video
-                  src="/media/artists/brian/Brian-web2.mp4"
+                  src="/media/artists/brian/Brian-web-mobile.mp4"
                   controls
                   playsInline
                   preload="metadata"
