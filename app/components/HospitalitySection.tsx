@@ -49,7 +49,7 @@ export default function HospitalitySection() {
 
               <div className="overflow-hidden rounded-[30px] shadow-2xl">
                 <Image
-                  src="/images/hospitality/IA.PNG"
+                 src="/images/hospitality/IA.png"
                   alt={
                     isEnglish
                       ? "Artistic experience at an exclusive venue"
