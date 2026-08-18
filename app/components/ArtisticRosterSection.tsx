@@ -34,6 +34,10 @@ const artists = [
     image: "/media/artists/Sheila/sheilaJPEG.jpeg",
     video: "/media/artists/Sheila/sheila-web.mp4",
   },
+  {
+    image: "/media/artists/Mica/micafoto.jpeg",
+    video: "/media/artists/Mica/mica-web.mp4",
+  },
 ];
 
 function ArtistCard({
