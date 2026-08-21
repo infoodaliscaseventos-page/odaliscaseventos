@@ -10,6 +10,7 @@ export default function Hero() {
 
   return (
     <section className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden bg-black">
+      
       {/* VIDEO */}
       <video
         autoPlay
@@ -29,6 +30,7 @@ export default function Hero() {
 
       {/* CONTENT */}
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center px-6 pb-16 pt-28 text-center md:px-10 md:pb-20">
+
         {/* LOGO */}
         <motion.div
           initial={{ opacity: 0, y: -15 }}
@@ -61,8 +63,8 @@ export default function Hero() {
 
           <h1 className="max-w-4xl text-4xl font-light leading-[1.05] tracking-tight text-white md:text-6xl lg:text-7xl">
             {isEnglish
-              ? "Arabic shows and unforgettable experiences."
-              : "Shows árabes y experiencias que nadie olvida."}
+              ? "Arabic shows and experiences no one forgets."
+              : "Shows y experiencias árabes que nadie olvida."}
           </h1>
 
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-white/85 md:text-base">
@@ -73,6 +75,8 @@ export default function Hero() {
 
           {/* BUTTONS */}
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+
+            {/* BOTÓN PRINCIPAL */}
             <a
               href={
                 isEnglish
@@ -81,11 +85,12 @@ export default function Hero() {
               }
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-white px-7 py-3 text-center text-xs font-medium text-black transition-all duration-300 hover:scale-[1.02] hover:bg-white/90 md:px-8 md:py-3.5 md:text-sm"
+              className="rounded-full bg-amber-400 px-7 py-3 text-center text-xs font-medium text-black transition-all duration-300 hover:scale-[1.02] hover:bg-amber-300 md:px-8 md:py-3.5 md:text-sm"
             >
               {isEnglish ? "Design my event" : "Diseñar mi evento"}
             </a>
 
+            {/* BOTÓN SECUNDARIO */}
             <a
               href={isEnglish ? "/en#experiencias" : "#experiencias"}
               className="
@@ -97,6 +102,7 @@ export default function Hero() {
             >
               {isEnglish ? "View experiences" : "Ver experiencias"}
             </a>
+
           </div>
         </motion.div>
       </div>
