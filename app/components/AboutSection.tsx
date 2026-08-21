@@ -52,8 +52,8 @@ export default function AboutSection() {
               src="/images/founder/brian-founder.jpg"
               alt={
                 isEnglish
-                  ? "Brian Brandán - Founder and Artistic Director of Odaliscas Eventos"
-                  : "Brian Brandán - Fundador y Director Artístico de Odaliscas Eventos"
+                  ? "Brian Brandán, founder and artistic director specializing in Arabic music and artistic production"
+                  : "Brian Brandán, fundador y director artístico especializado en música árabe y producción artística"
               }
               width={1000}
               height={1200}
@@ -100,37 +100,21 @@ export default function AboutSection() {
 
             <p className="mt-6 text-base leading-8 text-zinc-400 md:text-lg md:leading-9">
               {isEnglish
-                ? "His connection with this artistic world also comes from his family. His father, the renowned musician Osvaldo “El Beryewe” Brandán, was an Arabic percussionist, while his mother was a renowned dancer during the 1970s and 1980s. This artistic heritage became an essential part of his identity."
-                : "Su vínculo con este universo artístico también nace de su familia. Su padre, el reconocido músico Osvaldo “El Beryewe” Brandán, fue percusionista árabe, mientras que su madre fue una reconocida bailarina durante las décadas del 70 y 80. Esta herencia artística se convirtió en una parte esencial de su identidad."}
+                ? "His connection with this artistic world also comes from his family. His father, musician Osvaldo “El Beryewe” Brandán, developed a career spanning more than five decades as a percussionist and artist. His mother was also a dancer and a leading performer of her generation during the 1970s and 1980s."
+                : "Su vínculo con este universo artístico también nace de su familia. Su padre, el músico Osvaldo “El Beryewe” Brandán, desarrolló una trayectoria de más de cinco décadas como percusionista y artista. Su madre fue bailarina y una destacada intérprete de su generación durante las décadas del 70 y del 80."}
             </p>
 
             <p className="mt-6 text-base leading-8 text-zinc-400 md:text-lg md:leading-9">
               {isEnglish
-                ? "Throughout the years, he developed his career as a musician, Arabic percussionist, teacher, artistic director and producer, performing on major stages and working on concerts, shows and international projects."
-                : "A lo largo de los años desarrolló su carrera como músico, percusionista árabe, docente, director artístico y productor, participando en grandes escenarios, conciertos, espectáculos y proyectos internacionales."}
+                ? "That artistic heritage naturally led Brian to develop his own path within Arabic music, percussion and dance, working alongside dancers, musicians and artistic productions connected to this cultural universe."
+                : "Ese legado artístico llevó naturalmente a Brian a desarrollar su propio camino dentro de la música árabe, la percusión y la danza, trabajando junto a bailarinas, músicos y diferentes producciones artísticas vinculadas a este universo cultural."}
             </p>
 
             <p className="mt-6 text-base leading-8 text-zinc-400 md:text-lg md:leading-9">
               {isEnglish
-                ? "Today, that experience is the foundation of Odaliscas Eventos: a production company created to bring together artists, music, culture and premium production in experiences designed specifically for each client."
-                : "Hoy, toda esa experiencia es la base de Odaliscas Eventos: una productora creada para reunir artistas, música, cultura y producción premium en experiencias diseñadas especialmente para cada cliente."}
+                ? "Today, Odaliscas Eventos brings together that experience to create artistic proposals ranging from belly dance shows and live Arabic music to complete artistic productions for private events, hotels, restaurants and international projects."
+                : "Hoy, Odaliscas Eventos reúne toda esa experiencia para crear propuestas que van desde espectáculos de danza del vientre y música árabe en vivo hasta producciones artísticas integrales para eventos privados, hoteles, restaurantes y proyectos internacionales."}
             </p>
-
-            {/* FRASE */}
-
-            <div className="mt-10 border-l border-amber-400 pl-6">
-
-              <p className="font-[family-name:var(--font-cormorant)] text-2xl leading-relaxed text-white md:text-3xl">
-                {isEnglish
-                  ? "“We don't simply create shows. We create moments with identity, emotion and memory.”"
-                  : "“No buscamos simplemente ofrecer un espectáculo. Creamos momentos con identidad, emoción y memoria.”"}
-              </p>
-
-              <p className="mt-4 text-xs uppercase tracking-[0.3em] text-zinc-500">
-                Brian Brandán
-              </p>
-
-            </div>
 
           </div>
 

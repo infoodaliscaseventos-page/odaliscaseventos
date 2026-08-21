@@ -15,23 +15,23 @@ export default function Footer() {
     whatsappText
   )}`;
 
-  const instagramLink =
-    "https://instagram.com/odaliscas.eventos";
+  const instagramLink = "https://instagram.com/odaliscas.eventos";
 
   return (
     <footer className="border-t border-white/10 bg-[#030303]">
-
       <div className="mx-auto max-w-7xl px-6 py-24 md:px-8">
-
         <div className="grid gap-16 lg:grid-cols-[1.3fr_1fr_1fr]">
 
           {/* Marca */}
 
           <div>
-
             <img
               src="/images/logo/logo.png"
-              alt="Odaliscas Eventos"
+              alt={
+                isEnglish
+                  ? "Odaliscas Eventos - Arabic entertainment and artistic production"
+                  : "Odaliscas Eventos - entretenimiento árabe y producción artística"
+              }
               className="mb-8 w-20"
             />
 
@@ -43,22 +43,19 @@ export default function Footer() {
 
             <p className="mt-8 max-w-sm text-lg leading-9 text-zinc-400">
               {isEnglish
-                ? "We create experiences inspired by the elegance of the Arab world, bringing together artists, live music and carefully crafted production in every detail."
-                : "Creamos experiencias inspiradas en la elegancia del mundo árabe, fusionando artistas, música en vivo y una producción cuidada en cada detalle."}
+                ? "Arabic entertainment and artistic production for private events, weddings, hotels, restaurants, corporate events and special celebrations."
+                : "Entretenimiento árabe y producción artística para eventos privados, casamientos, hoteles, restaurantes, eventos corporativos y celebraciones especiales."}
             </p>
-
           </div>
 
           {/* Navegación */}
 
           <div>
-
             <h4 className="mb-8 text-sm uppercase tracking-[0.45em] text-amber-400">
               {isEnglish ? "Navigation" : "Navegación"}
             </h4>
 
             <nav className="space-y-5">
-
               <a
                 href={isEnglish ? "/en" : "#"}
                 className="block text-zinc-300 transition hover:text-amber-400"
@@ -84,23 +81,19 @@ export default function Footer() {
                 href={isEnglish ? "/en#contacto" : "#contacto"}
                 className="block text-zinc-300 transition hover:text-amber-400"
               >
-                {isEnglish ? "Contact" : "Contacto"}
+                {isEnglish ? "Request a proposal" : "Solicitar propuesta"}
               </a>
-
             </nav>
-
           </div>
 
           {/* Contacto */}
 
           <div>
-
             <h4 className="mb-8 text-sm uppercase tracking-[0.45em] text-amber-400">
               {isEnglish ? "Contact" : "Contacto"}
             </h4>
 
             <div className="space-y-6">
-
               <a
                 href={whatsappLink}
                 target="_blank"
@@ -109,9 +102,7 @@ export default function Footer() {
               >
                 <Phone size={18} strokeWidth={1.5} />
 
-                <span>
-                  +54 11 6272 1696
-                </span>
+                <span>+54 11 6272 1696</span>
               </a>
 
               <a
@@ -120,26 +111,20 @@ export default function Footer() {
               >
                 <Mail size={18} strokeWidth={1.5} />
 
-                <span>
-                  info.odaliscaseventos@gmail.com
-                </span>
+                <span>info.odaliscaseventos@gmail.com</span>
               </a>
 
               <a
                 href={instagramLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Instagram de Odaliscas Eventos"
-                className="
-                  inline-flex
-                  items-center
-                  gap-4
-                  text-zinc-300
-                  transition
-                  hover:text-amber-400
-                "
+                aria-label={
+                  isEnglish
+                    ? "Odaliscas Eventos on Instagram"
+                    : "Instagram de Odaliscas Eventos"
+                }
+                className="inline-flex items-center gap-4 text-zinc-300 transition hover:text-amber-400"
               >
-
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"
@@ -170,22 +155,15 @@ export default function Footer() {
                   />
                 </svg>
 
-                <span>
-                  @odaliscas.eventos
-                </span>
-
+                <span>@odaliscas.eventos</span>
               </a>
-
             </div>
-
           </div>
-
         </div>
 
         <div className="my-16 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
         <div className="flex flex-col items-center justify-between gap-6 text-center md:flex-row">
-
           <p className="text-sm tracking-wide text-zinc-500">
             © {new Date().getFullYear()} Odaliscas Eventos.{" "}
             {isEnglish
@@ -195,14 +173,11 @@ export default function Footer() {
 
           <p className="text-xs uppercase tracking-[0.35em] text-zinc-600">
             {isEnglish
-              ? "Premium Arabic Experiences"
-              : "Experiencias Árabes Premium"}
+              ? "Arabic Entertainment & Artistic Production"
+              : "Entretenimiento Árabe & Producción Artística"}
           </p>
-
         </div>
-
       </div>
-
     </footer>
   );
 }

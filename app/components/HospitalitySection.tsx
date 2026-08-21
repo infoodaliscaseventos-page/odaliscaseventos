@@ -30,7 +30,7 @@ export default function HospitalitySection() {
     : [
         "Bailarinas profesionales",
         "Música árabe en vivo",
-        "Recepciones & bienvenida de invitados",
+        "Recepciones y bienvenida de invitados",
         "Sunset Sessions",
         "Ambientación musical",
         "Shows personalizados",
@@ -41,19 +41,16 @@ export default function HospitalitySection() {
   return (
     <section className="bg-[#050505] py-24 md:py-36">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
-
         <div className="grid items-start gap-14 lg:grid-cols-2 lg:gap-20">
-
           <FadeIn>
             <div className="space-y-6">
-
               <div className="overflow-hidden rounded-[30px] shadow-2xl">
                 <Image
-                 src="/images/hospitality/IA.png"
+                  src="/images/hospitality/IA.png"
                   alt={
                     isEnglish
-                      ? "Artistic experience at an exclusive venue"
-                      : "Experiencia artística en un venue exclusivo"
+                      ? "Arabic artistic production for an exclusive hotel or venue"
+                      : "Producción artística árabe para un hotel o venue exclusivo"
                   }
                   width={1200}
                   height={900}
@@ -66,21 +63,19 @@ export default function HospitalitySection() {
                   src="/images/hospitality/sunset.png"
                   alt={
                     isEnglish
-                      ? "Sunset Session with DJ and percussion"
-                      : "Sunset Session con DJ y percusión"
+                      ? "Sunset Session with DJ and live percussion"
+                      : "Sunset Session con DJ y percusión en vivo"
                   }
                   width={1200}
                   height={900}
                   className="h-auto w-full object-cover transition duration-700 hover:scale-105"
                 />
               </div>
-
             </div>
           </FadeIn>
 
           <FadeIn delay={0.15}>
             <div>
-
               <p className="text-xs uppercase tracking-[0.5em] text-amber-400 md:text-sm">
                 HOSPITALITY & VENUES
               </p>
@@ -88,7 +83,7 @@ export default function HospitalitySection() {
               <h2 className="mt-5 font-[family-name:var(--font-cormorant)] text-4xl leading-[1.08] text-white md:text-5xl">
                 {isEnglish ? (
                   <>
-                    We design experiences
+                    Artistic productions
                     <br />
                     for hotels,
                     restaurants
@@ -97,7 +92,7 @@ export default function HospitalitySection() {
                   </>
                 ) : (
                   <>
-                    Diseñamos experiencias
+                    Propuestas artísticas
                     <br />
                     para hoteles,
                     restaurantes
@@ -135,7 +130,6 @@ export default function HospitalitySection() {
               </div>
 
               <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-7">
-
                 <p className="text-xs uppercase tracking-[0.4em] text-amber-400">
                   {isEnglish
                     ? "Available worldwide"
@@ -153,7 +147,6 @@ export default function HospitalitySection() {
                     ? "We coordinate artists and productions for hotels, restaurants, resorts, private events and exclusive venues, offering customized solutions for clients anywhere in the world."
                     : "Coordinamos artistas y producciones para hoteles, restaurantes, resorts, eventos privados y venues exclusivos, ofreciendo soluciones personalizadas para clientes de cualquier parte del mundo."}
                 </p>
-
               </div>
 
               <a
@@ -166,10 +159,8 @@ export default function HospitalitySection() {
                   ? "Request a personalized proposal"
                   : "Solicitar una propuesta personalizada"}
               </a>
-
             </div>
           </FadeIn>
-
         </div>
       </div>
     </section>

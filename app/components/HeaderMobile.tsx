@@ -1,83 +1,152 @@
-export default function HeaderDesktop() {
-  const whatsappLink =
-    "https://wa.me/541162721696?text=Hola,%20quisiera%20solicitar%20una%20propuesta%20para%20un%20evento.";
+"use client";
+
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+
+export default function HeaderMobile() {
+  const pathname = usePathname();
+  const isEnglish = pathname.startsWith("/en");
+  const [open, setOpen] = useState(false);
+
+  const whatsappText = isEnglish
+    ? "Hello, I would like to request a proposal for an event."
+    : "Hola, quisiera solicitar una propuesta para un evento.";
+
+  const whatsappLink = `https://wa.me/541162721696?text=${encodeURIComponent(
+    whatsappText
+  )}`;
+
+  const closeMenu = () => setOpen(false);
 
   return (
-    <div className="mx-auto hidden h-20 max-w-7xl items-center justify-between px-8 lg:flex">
-
-      {/* Logo */}
-
-      <a href="#" className="flex items-center">
-        <img
-          src="/images/logo/logo.png"
-          alt="Odaliscas Eventos"
-          className="h-12 w-12 object-contain transition duration-300 hover:scale-105"
-        />
-      </a>
-
-      {/* Navegación */}
-
-      <nav className="flex items-center gap-14 uppercase tracking-[0.24em] text-[15px] text-white">
-
+    <div className="lg:hidden">
+      {/* Header */}
+      <div className="fixed left-0 right-0 top-0 z-50 flex h-20 items-center justify-between border-b border-white/10 bg-black/70 px-5 backdrop-blur-md">
         <a
-          href="#"
-          className="transition hover:text-amber-400"
+          href={isEnglish ? "/en" : "/"}
+          onClick={closeMenu}
+          className="flex items-center"
         >
-          HOME
+          <img
+            src="/images/logo/logo.png"
+            alt="Odaliscas Eventos"
+            className="h-11 w-11 object-contain"
+          />
         </a>
 
-        <a
-          href="#experiencias"
-          className="transition hover:text-amber-400"
+        <button
+          type="button"
+          onClick={() => setOpen(!open)}
+          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white transition hover:border-amber-400 hover:text-amber-400"
         >
-          EXPERIENCES
-        </a>
-
-        <a
-          href="#nosotros"
-          className="transition hover:text-amber-400"
-        >
-          ABOUT US
-        </a>
-
-        <a
-          href="#contacto"
-          className="transition hover:text-amber-400"
-        >
-          CONTACT
-        </a>
-
-      </nav>
-
-      {/* Idioma + Botón */}
-
-      <div className="flex items-center gap-6">
-
-        <a
-          href="/"
-          className="text-sm uppercase tracking-[0.2em] text-zinc-400 transition hover:text-amber-400"
-        >
-          ES
-        </a>
-
-        <a
-          href="/en"
-          className="text-sm uppercase tracking-[0.2em] text-amber-400 transition hover:text-amber-300"
-        >
-          EN
-        </a>
-
-        <a
-          href={whatsappLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-full border border-amber-500 px-8 py-3 text-[13px] uppercase tracking-[0.22em] text-amber-400 transition-all duration-300 hover:bg-amber-500 hover:text-black"
-        >
-          REQUEST A PROPOSAL
-        </a>
-
+          {open ? (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              className="h-5 w-5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <path
+                d="M6 6L18 18M18 6L6 18"
+                strokeLinecap="round"
+              />
+            </svg>
+          ) : (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              className="h-5 w-5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <path d="M4 7H20" strokeLinecap="round" />
+              <path d="M4 12H20" strokeLinecap="round" />
+              <path d="M4 17H20" strokeLinecap="round" />
+            </svg>
+          )}
+        </button>
       </div>
 
+      {/* Menú */}
+      {open && (
+        <div className="fixed inset-0 z-40 bg-black/95 px-8 pt-28 backdrop-blur-xl">
+          <nav className="flex flex-col gap-7 text-sm uppercase tracking-[0.25em] text-white">
+            <a
+              href={isEnglish ? "/en" : "/"}
+              onClick={closeMenu}
+              className="transition hover:text-amber-400"
+            >
+              {isEnglish ? "HOME" : "INICIO"}
+            </a>
+
+            <a
+              href={isEnglish ? "/en#experiencias" : "#experiencias"}
+              onClick={closeMenu}
+              className="transition hover:text-amber-400"
+            >
+              {isEnglish ? "EXPERIENCES" : "EXPERIENCIAS"}
+            </a>
+
+            <a
+              href={isEnglish ? "/en#nosotros" : "#nosotros"}
+              onClick={closeMenu}
+              className="transition hover:text-amber-400"
+            >
+              {isEnglish ? "ABOUT US" : "NOSOTROS"}
+            </a>
+
+            <a
+              href={isEnglish ? "/en#contacto" : "#contacto"}
+              onClick={closeMenu}
+              className="transition hover:text-amber-400"
+            >
+              {isEnglish ? "CONTACT" : "CONTACTO"}
+            </a>
+
+            <div className="my-3 h-px w-full bg-white/10" />
+
+            <div className="flex items-center gap-5">
+              <a
+                href="/"
+                onClick={closeMenu}
+                className={`transition ${
+                  isEnglish
+                    ? "text-zinc-500"
+                    : "text-amber-400"
+                }`}
+              >
+                ES
+              </a>
+
+              <a
+                href="/en"
+                onClick={closeMenu}
+                className={`transition ${
+                  isEnglish
+                    ? "text-amber-400"
+                    : "text-zinc-500"
+                }`}
+              >
+                EN
+              </a>
+            </div>
+
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={closeMenu}
+              className="mt-3 rounded-full border border-amber-500 px-6 py-4 text-center text-xs tracking-[0.2em] text-amber-400 transition hover:bg-amber-500 hover:text-black"
+            >
+              {isEnglish
+                ? "REQUEST A PROPOSAL"
+                : "SOLICITAR PROPUESTA"}
+            </a>
+          </nav>
+        </div>
+      )}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import ExtrasSection from "./components/ExtrasSection";
 import BorderlessSection from "./components/BorderlessSection";
 import ArtisticRosterSection from "./components/ArtisticRosterSection";
 import BenefitsSection from "./components/BenefitsSection";
+import GallerySection from "./components/GallerySection";
 import ReviewsSection from "./components/ReviewsSection";
 import AboutSection from "./components/AboutSection";
 import ContactSection from "./components/ContactSection";
@@ -29,6 +30,8 @@ export default function Home() {
       <ArtisticRosterSection />
 
       <BenefitsSection />
+
+      <GallerySection />
 
       <ReviewsSection />
 

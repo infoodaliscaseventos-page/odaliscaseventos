@@ -39,7 +39,7 @@ export default function ContactForm() {
     setError("");
 
     const text = isEnglish
-      ? `✨ NEW PROPOSAL REQUEST ✨
+      ? `✨ NEW EVENT PROPOSAL REQUEST ✨
 
 👤 Name:
 ${name}
@@ -57,11 +57,11 @@ ${eventType || "-"}
 
 ${message || "-"}
 
-I look forward to hearing from you so we can design an unforgettable experience together.
+I look forward to hearing from you so we can create a unique artistic experience together.
 
 — Odaliscas Eventos
 `
-      : `✨ NUEVA SOLICITUD DE PROPUESTA ✨
+      : `✨ NUEVA SOLICITUD DE PROPUESTA PARA EVENTO ✨
 
 👤 Nombre:
 ${name}
@@ -79,7 +79,7 @@ ${eventType || "-"}
 
 ${message || "-"}
 
-Espero su contacto para diseñar juntos una experiencia inolvidable.
+Espero su contacto para diseñar juntos una propuesta artística única.
 
 — Odaliscas Eventos
 `;
@@ -102,7 +102,7 @@ Espero su contacto para diseñar juntos una experiencia inolvidable.
 
       <input
         type="tel"
-        placeholder={isEnglish ? "WhatsApp *" : "WhatsApp *"}
+        placeholder="WhatsApp *"
         value={whatsapp}
         onChange={(e) => setWhatsapp(e.target.value)}
         className="w-full rounded-2xl bg-zinc-900 px-6 py-5 text-white placeholder:text-zinc-500 outline-none transition focus:ring-1 focus:ring-amber-400 md:px-8 md:py-6"
@@ -110,7 +110,7 @@ Espero su contacto para diseñar juntos una experiencia inolvidable.
 
       <input
         type="email"
-        placeholder={isEnglish ? "Email" : "Email"}
+        placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         className="w-full rounded-2xl bg-zinc-900 px-6 py-5 text-white placeholder:text-zinc-500 outline-none transition focus:ring-1 focus:ring-amber-400 md:px-8 md:py-6"
@@ -122,27 +122,31 @@ Espero su contacto para diseñar juntos una experiencia inolvidable.
         className="w-full rounded-2xl bg-zinc-900 px-6 py-5 text-white outline-none transition focus:ring-1 focus:ring-amber-400 md:px-8 md:py-6"
       >
         <option value="">
-          {isEnglish ? "Event type" : "Tipo de evento"}
+          {isEnglish ? "Type of event" : "Tipo de evento"}
         </option>
 
-        <option value={isEnglish ? "Wedding" : "Boda"}>
-          {isEnglish ? "Wedding" : "Boda"}
+        <option value={isEnglish ? "Wedding" : "Casamiento"}>
+          {isEnglish ? "Wedding" : "Casamiento"}
         </option>
 
-        <option value={isEnglish ? "Birthday" : "Cumpleaños"}>
-          {isEnglish ? "Birthday" : "Cumpleaños"}
+        <option value={isEnglish ? "Birthday celebration" : "Cumpleaños"}>
+          {isEnglish ? "Birthday celebration" : "Cumpleaños"}
         </option>
 
         <option value={isEnglish ? "Corporate event" : "Evento corporativo"}>
           {isEnglish ? "Corporate event" : "Evento corporativo"}
         </option>
 
-        <option value={isEnglish ? "Hotel" : "Hotel"}>
-          Hotel
+        <option value={isEnglish ? "Hotel or resort" : "Hotel o resort"}>
+          {isEnglish ? "Hotel or resort" : "Hotel o resort"}
         </option>
 
-        <option value={isEnglish ? "Private party" : "Fiesta privada"}>
-          {isEnglish ? "Private party" : "Fiesta privada"}
+        <option value={isEnglish ? "Restaurant" : "Restaurante"}>
+          {isEnglish ? "Restaurant" : "Restaurante"}
+        </option>
+
+        <option value={isEnglish ? "Private event" : "Evento privado"}>
+          {isEnglish ? "Private event" : "Evento privado"}
         </option>
 
         <option value={isEnglish ? "Other" : "Otro"}>
@@ -154,8 +158,8 @@ Espero su contacto para diseñar juntos una experiencia inolvidable.
         rows={6}
         placeholder={
           isEnglish
-            ? "Tell us about your event..."
-            : "Contanos sobre tu evento..."
+            ? "Tell us about your event and the experience you have in mind..."
+            : "Contanos sobre tu evento y la experiencia que tenés en mente..."
         }
         value={message}
         onChange={(e) => setMessage(e.target.value)}
@@ -169,12 +173,13 @@ Espero su contacto para diseñar juntos una experiencia inolvidable.
       )}
 
       <button
+        type="button"
         onClick={sendWhatsapp}
         className="flex w-full justify-center rounded-full bg-amber-400 px-8 py-5 text-lg font-semibold text-black transition hover:bg-amber-300"
       >
         {isEnglish
-          ? "Request a proposal"
-          : "Solicitar propuesta"}
+          ? "Request a personalized proposal"
+          : "Solicitar propuesta personalizada"}
       </button>
 
     </div>
