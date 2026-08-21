@@ -10,7 +10,7 @@ export default function Hero() {
 
   return (
     <section className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden bg-black">
-      
+
       {/* VIDEO */}
       <video
         autoPlay
@@ -63,14 +63,14 @@ export default function Hero() {
 
           <h1 className="max-w-4xl text-4xl font-light leading-[1.05] tracking-tight text-white md:text-6xl lg:text-7xl">
             {isEnglish
-              ? "Arabic shows and experiences no one forgets."
-              : "Shows y experiencias árabes que nadie olvida."}
+              ? "Premium Arabic shows and unforgettable experiences."
+              : "Odaliscas, shows árabes y experiencias que nadie olvida."}
           </h1>
 
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-white/85 md:text-base">
             {isEnglish
-              ? "Belly dancers, Arabic musicians, live orchestras and premium artistic productions for private events, hotels, restaurants and international productions."
-              : "Shows de odaliscas, músicos y orquestas árabes en vivo y producciones artísticas premium para eventos privados, hoteles, restaurantes y producciones internacionales."}
+              ? "Belly dancers, Arabic musicians, live orchestras and premium artistic productions for private events, weddings, hotels, restaurants and international productions."
+              : "Odaliscas para eventos, músicos solistas y orquestas árabes en vivo, producciones artísticas premium para eventos privados, casamientos, hoteles, restaurantes y proyectos internacionales."}
           </p>
 
           {/* BUTTONS */}

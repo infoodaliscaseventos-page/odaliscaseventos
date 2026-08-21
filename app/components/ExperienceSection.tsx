@@ -8,13 +8,13 @@ const experiencesEs = [
     number: "01",
     title: "Recepción Árabe Premium",
     description:
-      "Una recepción árabe elegante con músicos en vivo, bailarinas y una puesta artística diseñada para sorprender a tus invitados desde su llegada.",
+      "Una recepción árabe elegante con músicos en vivo, bailarinas y una puesta artística diseñada para sorprender a los invitados desde su llegada.",
   },
   {
     number: "02",
     title: "Música y Orquestas Árabes en Vivo",
     description:
-      "Música árabe en vivo con músicos y orquestas para eventos privados, hoteles, restaurantes, celebraciones y producciones especiales.",
+      "Música árabe en vivo con músicos solistas y orquestas para eventos privados, hoteles, restaurantes, celebraciones y producciones especiales.",
   },
   {
     number: "03",
@@ -26,7 +26,7 @@ const experiencesEs = [
     number: "04",
     title: "Producciones Artísticas a Medida",
     description:
-      "Diseñamos shows árabes y producciones personalizadas para eventos corporativos, fiestas privadas, hoteles, restaurantes y proyectos especiales.",
+      "Diseñamos shows árabes y producciones artísticas personalizadas para eventos corporativos, fiestas privadas, casamientos, hoteles, restaurantes y proyectos especiales.",
   },
 ];
 
@@ -35,13 +35,13 @@ const experiencesEn = [
     number: "01",
     title: "Premium Arabic Reception",
     description:
-      "An elegant Arabic reception featuring live musicians, dancers and an artistic setting designed to surprise your guests from the moment they arrive.",
+      "An elegant Arabic reception featuring live musicians, dancers and an artistic setting designed to surprise guests from the moment they arrive.",
   },
   {
     number: "02",
     title: "Live Arabic Music & Orchestras",
     description:
-      "Live Arabic music with musicians and orchestras for private events, hotels, restaurants, celebrations and special productions.",
+      "Live Arabic music with solo musicians and orchestras for private events, hotels, restaurants, celebrations and special productions.",
   },
   {
     number: "03",
@@ -53,7 +53,7 @@ const experiencesEn = [
     number: "04",
     title: "Tailor-Made Artistic Productions",
     description:
-      "We design customized Arabic shows and artistic productions for corporate events, private celebrations, hotels, restaurants and special projects.",
+      "We design customized Arabic shows and artistic productions for corporate events, private celebrations, weddings, hotels, restaurants and special projects.",
   },
 ];
 
@@ -89,7 +89,7 @@ export default function ExperienceSection() {
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/55 md:text-lg">
               {isEnglish
                 ? "From Arabic receptions and live music to tailor-made artistic productions, we bring together musicians, dancers, aesthetics and creative direction to give every event its own identity."
-                : "Desde recepciones árabes y música en vivo hasta shows y producciones artísticas a medida, reunimos músicos, bailarinas, estética y dirección creativa para darle a cada evento una identidad propia."}
+                : "Desde recepciones árabes y música en vivo hasta shows árabes y producciones artísticas a medida, reunimos músicos, bailarinas, estética y dirección creativa para darle a cada evento una identidad propia."}
             </p>
           </div>
         </FadeIn>
