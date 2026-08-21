@@ -99,6 +99,74 @@ export const metadata: Metadata = {
   publisher: "Odaliscas Eventos",
 };
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Odaliscas Eventos",
+  url: "https://www.odaliscaseventos.com",
+  logo: "https://www.odaliscaseventos.com/logo.png",
+  image:
+    "https://www.odaliscaseventos.com/images/hero/hero-web.jpg",
+  description:
+    "Producción de experiencias y shows árabes premium, música árabe en vivo y propuestas artísticas para eventos privados, hoteles, restaurantes y eventos corporativos.",
+  email: "info.odaliscaseventos@gmail.com",
+  telephone: "+54 11 6272 1696",
+  sameAs: [
+    "https://www.instagram.com/odaliscas.eventos/",
+  ],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Buenos Aires",
+    addressRegion: "Ciudad Autónoma de Buenos Aires",
+    addressCountry: "AR",
+  },
+  areaServed: [
+    {
+      "@type": "Country",
+      name: "Argentina",
+    },
+    {
+      "@type": "Place",
+      name: "Worldwide",
+    },
+  ],
+  knowsAbout: [
+    "Shows árabes",
+    "Danza árabe",
+    "Danza del vientre",
+    "Música árabe en vivo",
+    "Percusión árabe",
+    "Producción artística",
+    "Entretenimiento para eventos",
+    "Experiencias para hoteles y restaurantes",
+  ],
+};
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Shows Árabes y Producción Artística para Eventos",
+  provider: {
+    "@type": "Organization",
+    name: "Odaliscas Eventos",
+    url: "https://www.odaliscaseventos.com",
+  },
+  description:
+    "Shows de danza árabe, bailarinas, músicos, orquestas árabes en vivo y producciones artísticas personalizadas para eventos privados, casamientos, hoteles, restaurantes y eventos corporativos.",
+  areaServed: {
+    "@type": "Place",
+    name: "Argentina y proyectos internacionales",
+  },
+  serviceType: [
+    "Shows árabes",
+    "Danza del vientre para eventos",
+    "Música árabe en vivo",
+    "Recepciones artísticas",
+    "Producción artística para eventos",
+    "Experiencias para hoteles y restaurantes",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -110,6 +178,20 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(serviceSchema),
+          }}
+        />
+
         {children}
       </body>
     </html>
