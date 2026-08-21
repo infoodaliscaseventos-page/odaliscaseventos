@@ -43,8 +43,8 @@ export default function Footer() {
 
             <p className="mt-8 max-w-sm text-lg leading-9 text-zinc-400">
               {isEnglish
-                ? "Arabic entertainment and artistic production for private events, weddings, hotels, restaurants, corporate events and special celebrations."
-                : "Entretenimiento árabe y producción artística para eventos privados, casamientos, hoteles, restaurantes, eventos corporativos y celebraciones especiales."}
+                ? "Arabic shows, live music and artistic productions for private events, weddings, hotels, restaurants, corporate events and international projects."
+                : "Shows árabes, música en vivo y producciones artísticas para eventos privados, casamientos, hoteles, restaurantes, eventos corporativos y proyectos internacionales."}
             </p>
           </div>
 
