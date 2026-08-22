@@ -206,25 +206,13 @@ export default function ArtisticRosterSection() {
           <ArtistVideo video={artists.emi} delay={0.35} />
         </div>
 
-        {/* BRIAN */}
-        <div className="mx-auto mt-8 max-w-6xl">
-          <FadeIn delay={0.4}>
-            <div className="overflow-hidden rounded-[24px] border border-white/10 bg-[#090909]">
-              <div className="flex justify-center overflow-hidden bg-black">
-                <video
-                  src="/media/artists/brian/Brian-web-mobile.mp4"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  className="block max-h-[65vh] w-auto max-w-full object-contain"
-                />
-              </div>
-            </div>
-          </FadeIn>
-        </div>
-
+       {/* BRIAN */}
+<div className="mx-auto mt-8 max-w-6xl">
+  <VideoCard
+    video="/media/artists/brian/Brian-web-mobile.mp4"
+    delay={0.4}
+  />
+</div>
         {/* SELENE + SHEILA */}
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
           <ArtistVideo video={artists.selene} delay={0.45} />
