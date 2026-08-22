@@ -22,7 +22,6 @@ export default function HospitalitySection() {
         "Live Arabic music",
         "Guest reception & welcome",
         "Sunset Sessions",
-        "Musical ambiance",
         "Customized shows",
         "Full artistic productions",
         "Artists for international seasons",
@@ -32,7 +31,6 @@ export default function HospitalitySection() {
         "Música árabe en vivo",
         "Recepciones y bienvenida de invitados",
         "Sunset Sessions",
-        "Ambientación musical",
         "Shows personalizados",
         "Producciones artísticas integrales",
         "Artistas para temporadas internacionales",
@@ -104,14 +102,14 @@ export default function HospitalitySection() {
 
               <p className="mt-7 max-w-xl text-base leading-8 text-zinc-400 md:text-lg">
                 {isEnglish
-                  ? "From an elegant reception with live musicians to a complete artistic production, we develop customized proposals for hotels, restaurants, resorts, beach clubs, gastronomic events and exclusive venues."
-                  : "Desde una recepción elegante con músicos en vivo hasta una producción artística completa, desarrollamos propuestas personalizadas para hoteles, restaurantes, resorts, beach clubs, eventos gastronómicos y espacios exclusivos."}
+                  ? "From elegant Arabic receptions and live music to complete artistic productions, we develop customized experiences for hotels, restaurants, resorts, beach clubs, gastronomic events and exclusive venues."
+                  : "Desde recepciones árabes elegantes y música en vivo hasta producciones artísticas completas, desarrollamos experiencias personalizadas para hoteles, restaurantes, resorts, beach clubs, eventos gastronómicos y espacios exclusivos."}
               </p>
 
               <p className="mt-5 max-w-xl text-base leading-8 text-zinc-400 md:text-lg">
                 {isEnglish
-                  ? "We represent professional artists and coordinate every detail to deliver authentic experiences tailored to the identity of each establishment."
-                  : "Representamos artistas profesionales y coordinamos cada detalle para brindar experiencias auténticas adaptadas a la identidad de cada establecimiento."}
+                  ? "We bring together professional dancers, musicians and artistic direction to create authentic experiences adapted to the identity and audience of each establishment."
+                  : "Reunimos bailarinas profesionales, músicos y dirección artística para crear experiencias auténticas adaptadas a la identidad y al público de cada establecimiento."}
               </p>
 
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -133,7 +131,7 @@ export default function HospitalitySection() {
                 <p className="text-xs uppercase tracking-[0.4em] text-amber-400">
                   {isEnglish
                     ? "Available worldwide"
-                    : "Disponible para todo el mundo"}
+                    : "Disponible en todo el mundo"}
                 </p>
 
                 <h3 className="mt-4 text-2xl font-light leading-tight text-white md:text-3xl">
@@ -144,8 +142,8 @@ export default function HospitalitySection() {
 
                 <p className="mt-4 text-sm leading-7 text-zinc-400 md:text-base">
                   {isEnglish
-                    ? "We coordinate artists and productions for hotels, restaurants, resorts, private events and exclusive venues, offering customized solutions for clients anywhere in the world."
-                    : "Coordinamos artistas y producciones para hoteles, restaurantes, resorts, eventos privados y venues exclusivos, ofreciendo soluciones personalizadas para clientes de cualquier parte del mundo."}
+                    ? "We coordinate artists and artistic productions for hotels, restaurants, resorts, private events and exclusive venues, offering customized solutions for projects anywhere in the world."
+                    : "Coordinamos artistas y producciones artísticas para hoteles, restaurantes, resorts, eventos privados y venues exclusivos, ofreciendo soluciones personalizadas para proyectos en cualquier parte del mundo."}
                 </p>
               </div>
 

@@ -20,44 +20,44 @@ export default function BorderlessSection() {
         {
           title: "Available worldwide",
           description:
-            "We coordinate artistic experiences for clients anywhere in the world.",
+            "We develop and coordinate artistic experiences for events and clients anywhere in the world.",
         },
         {
           title: "Customized productions",
           description:
-            "Each project is tailored to the space, audience and identity of the event.",
+            "Each artistic production is designed around the space, audience and identity of every event.",
         },
         {
           title: "Hospitality & Venues",
           description:
-            "We work with hotels, restaurants, resorts, beach clubs and exclusive venues.",
+            "We create proposals for hotels, restaurants, resorts, beach clubs and exclusive destinations.",
         },
         {
           title: "International coordination",
           description:
-            "We organize every artistic detail so the client can simply enjoy the experience.",
+            "We coordinate artists and every artistic detail so each production can be developed smoothly from anywhere in the world.",
         },
       ]
     : [
         {
-          title: "Disponible mundialmente",
+          title: "Disponible en todo el mundo",
           description:
-            "Coordinamos experiencias artísticas para clientes de cualquier parte del mundo.",
+            "Desarrollamos y coordinamos experiencias artísticas para eventos y clientes en cualquier parte del mundo.",
         },
         {
           title: "Producciones personalizadas",
           description:
-            "Cada proyecto se adapta al espacio, al público y a la identidad del evento.",
+            "Cada producción artística se diseña según el espacio, el público y la identidad de cada evento.",
         },
         {
           title: "Hospitality & Venues",
           description:
-            "Trabajamos con hoteles, restaurantes, resorts, beach clubs y espacios exclusivos.",
+            "Creamos propuestas para hoteles, restaurantes, resorts, beach clubs y destinos exclusivos.",
         },
         {
           title: "Coordinación internacional",
           description:
-            "Organizamos cada detalle artístico para que el cliente solo disfrute de la experiencia.",
+            "Coordinamos artistas y cada detalle artístico para que cada producción pueda desarrollarse de manera fluida desde cualquier parte del mundo.",
         },
       ];
 
@@ -90,8 +90,8 @@ export default function BorderlessSection() {
 
             <p className="mx-auto mt-8 max-w-3xl text-lg leading-9 text-zinc-400">
               {isEnglish
-                ? "From private events to hotels, restaurants, resorts and exclusive venues, we develop customized artistic proposals for clients anywhere in the world, coordinating every detail with the same level of excellence."
-                : "Desde eventos privados hasta hoteles, restaurantes, resorts y espacios exclusivos, desarrollamos propuestas artísticas personalizadas para clientes de cualquier parte del mundo, coordinando cada detalle con el mismo nivel de excelencia."}
+                ? "From private events and weddings to hotels, restaurants, resorts and exclusive destinations, we develop customized artistic productions and Arabic experiences for projects anywhere in the world."
+                : "Desde eventos privados y casamientos hasta hoteles, restaurantes, resorts y destinos exclusivos, desarrollamos producciones artísticas y experiencias árabes personalizadas para proyectos en cualquier parte del mundo."}
             </p>
 
           </div>

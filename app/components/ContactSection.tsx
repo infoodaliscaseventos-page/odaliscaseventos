@@ -36,8 +36,8 @@ export default function ContactSection() {
               src="/images/contact/planning-premium.png"
               alt={
                 isEnglish
-                  ? "Arabic event planning and artistic production"
-                  : "Planificación de eventos y producción artística árabe"
+                  ? "Arabic event planning and premium artistic production"
+                  : "Planificación de eventos y producción artística árabe premium"
               }
               width={1100}
               height={1200}
@@ -67,14 +67,14 @@ export default function ContactSection() {
 
             <p className="mt-6 max-w-xl text-base leading-8 text-zinc-400 md:mt-10 md:text-xl md:leading-10">
               {isEnglish
-                ? "Tell us about your event and we will create a personalized artistic proposal with Arabic dancers, live music, musicians and performances designed around your vision."
-                : "Contanos tu idea y diseñaremos una propuesta artística personalizada con bailarinas árabes, música en vivo, músicos y performances pensadas especialmente para tu evento."}
+                ? "Tell us about your event and we will create a personalized artistic proposal with Arabic dancers, live Arabic music, musicians and performances designed around your vision."
+                : "Contanos tu idea y diseñaremos una propuesta artística personalizada con bailarinas árabes, música árabe en vivo, músicos y performances pensadas especialmente para tu evento."}
             </p>
 
             <p className="mt-5 max-w-xl text-base leading-8 text-zinc-500 md:text-lg">
               {isEnglish
-                ? "We create proposals for private events, corporate celebrations, hotels, restaurants, weddings and special occasions."
-                : "Creamos propuestas para eventos privados, eventos corporativos, hoteles, restaurantes, casamientos y celebraciones especiales."}
+                ? "We create artistic experiences for private events, corporate celebrations, weddings, hotels, restaurants and special projects worldwide."
+                : "Creamos experiencias artísticas para eventos privados, eventos corporativos, casamientos, hoteles, restaurantes y proyectos especiales en cualquier parte del mundo."}
             </p>
 
             <div className="mt-10 space-y-5 md:mt-14 md:space-y-6">

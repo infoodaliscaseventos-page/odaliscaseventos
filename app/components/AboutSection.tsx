@@ -52,8 +52,8 @@ export default function AboutSection() {
               src="/images/founder/brian-founder.jpg"
               alt={
                 isEnglish
-                  ? "Brian Brandán, founder and artistic director specializing in Arabic music and artistic production"
-                  : "Brian Brandán, fundador y director artístico especializado en música árabe y producción artística"
+                  ? "Brian Brandán, founder and artistic director specializing in Arabic music, percussion and artistic production"
+                  : "Brian Brandán, fundador y director artístico especializado en música árabe, percusión y producción artística"
               }
               width={1000}
               height={1200}
@@ -106,14 +106,14 @@ export default function AboutSection() {
 
             <p className="mt-6 text-base leading-8 text-zinc-400 md:text-lg md:leading-9">
               {isEnglish
-                ? "That artistic heritage naturally led Brian to develop his own path within Arabic music, percussion and dance, working alongside dancers, musicians and artistic productions connected to this cultural universe."
-                : "Ese legado artístico llevó naturalmente a Brian a desarrollar su propio camino dentro de la música árabe, la percusión y la danza, trabajando junto a bailarinas, músicos y diferentes producciones artísticas vinculadas a este universo cultural."}
+                ? "That artistic heritage naturally led Brian to develop his own path within Arabic music, percussion and dance, working alongside professional dancers, musicians and artistic productions connected to this cultural universe."
+                : "Ese legado artístico llevó naturalmente a Brian a desarrollar su propio camino dentro de la música árabe, la percusión y la danza, trabajando junto a bailarinas profesionales, músicos y diferentes producciones artísticas vinculadas a este universo cultural."}
             </p>
 
             <p className="mt-6 text-base leading-8 text-zinc-400 md:text-lg md:leading-9">
               {isEnglish
-                ? "Today, Odaliscas Eventos brings together that experience to create artistic proposals ranging from belly dance shows and live Arabic music to complete artistic productions for private events, hotels, restaurants and international projects."
-                : "Hoy, Odaliscas Eventos reúne toda esa experiencia para crear propuestas que van desde espectáculos de danza del vientre y música árabe en vivo hasta producciones artísticas integrales para eventos privados, hoteles, restaurantes y proyectos internacionales."}
+                ? "Today, Odaliscas Eventos brings together that experience to create Arabic artistic experiences ranging from belly dance shows and live Arabic music to complete artistic productions for private events, weddings, hotels, restaurants and international projects."
+                : "Hoy, Odaliscas Eventos reúne toda esa experiencia para crear experiencias artísticas árabes que van desde shows de odaliscas y danza del vientre, música árabe en vivo y performances musicales, hasta producciones artísticas integrales para eventos privados, casamientos, hoteles, restaurantes y proyectos internacionales."}
             </p>
 
           </div>

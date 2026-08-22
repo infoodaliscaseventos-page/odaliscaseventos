@@ -14,14 +14,14 @@ export default function ExtrasSection() {
           number: "01",
           title: "International Arab Chefs",
           description:
-            "Chefs specialized in Arab cuisine and signature culinary concepts for private experiences and special productions.",
+            "Chefs specialized in Arab cuisine and signature culinary concepts for private events, exclusive experiences and special productions.",
           image: "/images/extras/chefpng.png",
         },
         {
           number: "02",
           title: "Signature Arab Cuisine",
           description:
-            "Culinary proposals inspired by the flavors and traditions of the Arab world, designed to complement the identity of each event.",
+            "Culinary experiences inspired by the flavors and traditions of the Arab world, designed to complement the identity of each event and celebration.",
           image: "/images/extras/comidapng.png",
         },
       ]
@@ -30,14 +30,14 @@ export default function ExtrasSection() {
           number: "01",
           title: "Chefs árabes internacionales",
           description:
-            "Chefs especializados en gastronomía árabe y propuestas de autor para experiencias privadas y producciones especiales.",
+            "Chefs especializados en gastronomía árabe y propuestas de autor para eventos privados, experiencias exclusivas y producciones especiales.",
           image: "/images/extras/chefpng.png",
         },
         {
           number: "02",
           title: "Gastronomía árabe de autor",
           description:
-            "Propuestas gastronómicas inspiradas en los sabores y tradiciones del mundo árabe, pensadas para acompañar la identidad de cada evento.",
+            "Experiencias gastronómicas inspiradas en los sabores y tradiciones del mundo árabe, diseñadas para complementar la identidad de cada evento y celebración.",
           image: "/images/extras/comidapng.png",
         },
       ];
@@ -73,8 +73,8 @@ export default function ExtrasSection() {
 
             <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-zinc-400 md:text-lg md:leading-8">
               {isEnglish
-                ? "We add special proposals to transform every production into a complete experience."
-                : "Sumamos propuestas especiales para transformar cada producción en una experiencia integral."}
+                ? "We bring together gastronomy, artists and special proposals to transform every production into a complete experience."
+                : "Integramos gastronomía, artistas y propuestas especiales para transformar cada producción en una experiencia integral."}
             </p>
 
           </div>
@@ -139,8 +139,8 @@ export default function ExtrasSection() {
 
             <p className="text-base leading-8 text-zinc-400 md:text-lg md:leading-9">
               {isEnglish
-                ? "Each proposal can be incorporated independently or become part of a complete production designed especially for each occasion."
-                : "Cada propuesta puede incorporarse de manera independiente o formar parte de una producción integral diseñada especialmente para cada ocasión."}
+                ? "Each proposal can be incorporated independently or become part of a complete artistic and culinary production designed especially for each occasion."
+                : "Cada propuesta puede incorporarse de manera independiente o formar parte de una producción artística y gastronómica integral, diseñada especialmente para cada ocasión."}
             </p>
 
           </div>
