@@ -1,30 +1,87 @@
 ﻿"use client";
 
 import { useRef, useState } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import Image from "next/image";
 import FadeIn from "./FadeIn";
 import { usePathname } from "next/navigation";
 
-const artists = {
-  julieta: "/media/artists/Julieta/Julieta-web-compressed.mp4",
-  maga: "/media/artists/Maga/Maga-web-compressed.mp4",
-  anto: "/media/artists/Anto/anto-web-compressed.mp4",
-  mica: "/media/artists/Mica/mica-web-compressed.mp4",
-  vero: "/media/artists/Vero/vero-web-compressed.mp4",
-  emi: "/media/artists/Emi/emi-web-compressed.mp4",
-  selene: "/media/artists/Selene/selene-web-compressed.mp4",
-  sheila: "/media/artists/Sheila/sheila-web-compressed.mp4",
-};
+const START_TIME = 1;
 
-function ArtistVideo({
+const artists = [
+  {
+    image: "/media/artists/Julieta/julieta.jpg",
+    video: "/media/artists/Julieta/Julieta-web-compressed.mp4",
+  },
+  {
+    image: "/media/artists/Maga/maga.jpeg",
+    video: "/media/artists/Maga/Maga-web-compressed.mp4",
+  },
+  {
+    image: "/media/artists/Anto/anto.JPEG",
+    video: "/media/artists/Anto/anto-web-compressed.mp4",
+  },
+  {
+    image: "/media/artists/Mica/micafoto.jpeg",
+    video: "/media/artists/Mica/mica-web-compressed.mp4",
+  },
+  {
+    image: "/media/artists/Vero/verofoto.jpeg",
+    video: "/media/artists/Vero/vero-web-compressed.mp4",
+  },
+  {
+    image: "/media/artists/Emi/emi.jpeg",
+    video: "/media/artists/Emi/emi-web-compressed.mp4",
+  },
+  {
+    image: "/media/artists/Selene/selenejpeg.jpeg",
+    video: "/media/artists/Selene/selene-web-compressed.mp4",
+  },
+  {
+    image: "/media/artists/Sheila/sheilaJPEG.jpeg",
+    video: "/media/artists/Sheila/sheila-web-compressed.mp4",
+  },
+];
+
+function ArtistCard({
+  image,
   video,
   delay,
 }: {
+  image: string;
   video: string;
   delay: number;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+
+  const handleMouseEnter = () => {
+    setIsPlaying(true);
+
+    if (videoRef.current) {
+      videoRef.current.currentTime = START_TIME;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsPlaying(false);
+
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = START_TIME;
+      videoRef.current.muted = true;
+    }
+
+    setIsMuted(true);
+  };
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = START_TIME;
+    }
+  };
 
   const toggleSound = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -33,44 +90,60 @@ function ArtistVideo({
 
     if (!videoRef.current) return;
 
-    const nextMuted = !isMuted;
+    const nextMutedState = !isMuted;
 
-    videoRef.current.muted = nextMuted;
-    setIsMuted(nextMuted);
+    videoRef.current.muted = nextMutedState;
+    setIsMuted(nextMutedState);
 
-    if (!nextMuted) {
-      videoRef.current.play().catch(() => {});
-    }
+    videoRef.current.play().catch(() => {});
   };
 
   return (
     <FadeIn delay={delay}>
-      <div className="overflow-hidden rounded-[24px] border border-white/10 bg-[#090909] transition duration-500 hover:border-amber-400/40">
+      <div
+        className="group overflow-hidden rounded-[24px] border border-white/10 bg-[#090909] transition duration-500 hover:border-amber-400/40"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <div className="relative aspect-[4/5] w-full overflow-hidden bg-black">
+          <Image
+            src={image}
+            alt="Odaliscas Eventos artist"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className={`object-cover transition-all duration-700 ${
+              isPlaying
+                ? "scale-105 opacity-0"
+                : "scale-100 opacity-100"
+            }`}
+          />
+
           <video
             ref={videoRef}
             src={video}
-            autoPlay
-            muted={isMuted}
+            muted
             loop
             playsInline
             preload="metadata"
-            className="absolute inset-0 h-full w-full object-contain"
+            onLoadedMetadata={handleLoadedMetadata}
+            className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${
+              isPlaying
+                ? "scale-100 opacity-100"
+                : "scale-100 opacity-0"
+            }`}
           />
-
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10" />
 
           <button
             type="button"
             onClick={toggleSound}
-            aria-label={isMuted ? "Activar sonido" : "Silenciar sonido"}
-            className="absolute bottom-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-amber-400 hover:text-amber-400"
+            aria-label={isMuted ? "Turn sound on" : "Mute video"}
+            className={`absolute bottom-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400 ${
+              isPlaying
+                ? "opacity-100"
+                : "pointer-events-none opacity-0"
+            }`}
           >
-            {isMuted ? (
-              <VolumeX size={18} strokeWidth={1.5} />
-            ) : (
-              <Volume2 size={18} strokeWidth={1.5} />
-            )}
+            {isMuted ? "🔇" : "🔊"}
           </button>
         </div>
       </div>
@@ -88,17 +161,21 @@ function VideoCard({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
 
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = START_TIME;
+    }
+  };
+
   const toggleSound = () => {
     if (!videoRef.current) return;
 
-    const nextMuted = !isMuted;
+    const nextMutedState = !isMuted;
 
-    videoRef.current.muted = nextMuted;
-    setIsMuted(nextMuted);
+    videoRef.current.muted = nextMutedState;
+    setIsMuted(nextMutedState);
 
-    if (!nextMuted) {
-      videoRef.current.play().catch(() => {});
-    }
+    videoRef.current.play().catch(() => {});
   };
 
   return (
@@ -109,24 +186,21 @@ function VideoCard({
             ref={videoRef}
             src={video}
             autoPlay
-            muted={isMuted}
+            muted
             loop
             playsInline
             preload="metadata"
+            onLoadedMetadata={handleLoadedMetadata}
             className="block h-auto w-full"
           />
 
           <button
             type="button"
             onClick={toggleSound}
-            aria-label={isMuted ? "Activar sonido" : "Silenciar sonido"}
-            className="absolute bottom-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-amber-400 hover:text-amber-400"
+            aria-label={isMuted ? "Turn sound on" : "Mute video"}
+            className="absolute bottom-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400"
           >
-            {isMuted ? (
-              <VolumeX size={18} strokeWidth={1.5} />
-            ) : (
-              <Volume2 size={18} strokeWidth={1.5} />
-            )}
+            {isMuted ? "🔇" : "🔊"}
           </button>
         </div>
       </div>
@@ -147,7 +221,7 @@ export default function ArtisticRosterSection() {
   )}`;
 
   return (
-    <section id="artistas" className="bg-black py-24 md:py-36">
+    <section id="experiencias" className="bg-black py-24 md:py-36">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
 
         <FadeIn>
@@ -182,44 +256,45 @@ export default function ArtisticRosterSection() {
 
         {/* JULIETA + MAGA */}
         <div className="mx-auto mt-20 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistVideo video={artists.julieta} delay={0.05} />
-          <ArtistVideo video={artists.maga} delay={0.1} />
-        </div>
-
-        {/* ANTO + MICA */}
-        <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistVideo video={artists.anto} delay={0.15} />
-          <ArtistVideo video={artists.mica} delay={0.2} />
+          <ArtistCard {...artists[0]} delay={0.05} />
+          <ArtistCard {...artists[1]} delay={0.1} />
         </div>
 
         {/* MÚSICA AMBIENTE */}
         <div className="mx-auto mt-8 max-w-6xl">
           <VideoCard
             video="/media/live-music/videos/musica-ambiente-web.mp4"
-            delay={0.25}
+            delay={0.15}
           />
+        </div>
+
+        {/* ANTO + MICA */}
+        <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
+          <ArtistCard {...artists[2]} delay={0.2} />
+          <ArtistCard {...artists[3]} delay={0.25} />
         </div>
 
         {/* VERO + EMI */}
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistVideo video={artists.vero} delay={0.3} />
-          <ArtistVideo video={artists.emi} delay={0.35} />
+          <ArtistCard {...artists[4]} delay={0.3} />
+          <ArtistCard {...artists[5]} delay={0.35} />
         </div>
 
-       {/* BRIAN */}
-<div className="mx-auto mt-8 max-w-6xl">
-  <VideoCard
-    video="/media/artists/brian/Brian-web-mobile.mp4"
-    delay={0.4}
-  />
-</div>
+        {/* BRIAN */}
+        <div className="mx-auto mt-8 max-w-6xl">
+          <VideoCard
+            video="/media/artists/brian/Brian-web-mobile.mp4"
+            delay={0.4}
+          />
+        </div>
+
         {/* SELENE + SHEILA */}
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistVideo video={artists.selene} delay={0.45} />
-          <ArtistVideo video={artists.sheila} delay={0.5} />
+          <ArtistCard {...artists[6]} delay={0.45} />
+          <ArtistCard {...artists[7]} delay={0.5} />
         </div>
 
-        {/* SUNSET SESSIONS */}
+        {/* SUNSET */}
         <div className="mx-auto mt-8 max-w-6xl">
           <VideoCard
             video="/media/sunset/videos/sunset-web.mp4"
@@ -227,16 +302,15 @@ export default function ArtisticRosterSection() {
           />
         </div>
 
-       {/* HANDPAN - CIERRE */}
-<div className="mx-auto mt-8 max-w-xl">
-  <VideoCard
-    video="/images/artists/handpan.mp4"
-    delay={0.6}
-  />
-</div>
+        {/* HANDPAN */}
+        <div className="mx-auto mt-8 max-w-xl">
+          <VideoCard
+            video="/images/artists/handpan.mp4"
+            delay={0.6}
+          />
+        </div>
 
-        {/* CTA */}
-        <FadeIn delay={0.7}>
+        <FadeIn delay={0.65}>
           <div className="mt-20 text-center">
             <p className="mx-auto max-w-2xl text-lg leading-8 text-zinc-400">
               {isEnglish
@@ -250,9 +324,7 @@ export default function ArtisticRosterSection() {
               rel="noopener noreferrer"
               className="mt-8 inline-flex rounded-full bg-amber-400 px-8 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-black transition-all duration-300 hover:scale-105 hover:bg-amber-300"
             >
-              {isEnglish
-                ? "Design my experience"
-                : "Diseñar mi experiencia"}
+              {isEnglish ? "Design my experience" : "Diseñar mi experiencia"}
             </a>
           </div>
         </FadeIn>
