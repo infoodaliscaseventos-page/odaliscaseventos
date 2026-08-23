@@ -46,16 +46,18 @@ function ArtistCard({
   image,
   video,
   delay,
+  isEnglish,
 }: {
   image: string;
   video: string;
   delay: number;
+  isEnglish: boolean;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
 
-  const handleMouseEnter = () => {
+  const startVideo = () => {
     setIsPlaying(true);
 
     if (videoRef.current) {
@@ -63,18 +65,6 @@ function ArtistCard({
       videoRef.current.muted = true;
       videoRef.current.play().catch(() => {});
     }
-  };
-
-  const handleMouseLeave = () => {
-    setIsPlaying(false);
-
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = START_TIME;
-      videoRef.current.muted = true;
-    }
-
-    setIsMuted(true);
   };
 
   const handleLoadedMetadata = () => {
@@ -100,11 +90,7 @@ function ArtistCard({
 
   return (
     <FadeIn delay={delay}>
-      <div
-        className="group overflow-hidden rounded-[24px] border border-white/10 bg-[#090909] transition duration-500 hover:border-amber-400/40"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
+      <div className="group overflow-hidden rounded-[24px] border border-white/10 bg-[#090909] transition duration-500 hover:border-amber-400/40">
         <div className="relative aspect-[4/5] w-full overflow-hidden bg-black">
           <Image
             src={image}
@@ -133,18 +119,30 @@ function ArtistCard({
             }`}
           />
 
-          <button
-            type="button"
-            onClick={toggleSound}
-            aria-label={isMuted ? "Turn sound on" : "Mute video"}
-            className={`absolute bottom-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400 ${
-              isPlaying
-                ? "opacity-100"
-                : "pointer-events-none opacity-0"
-            }`}
-          >
-            {isMuted ? "🔇" : "🔊"}
-          </button>
+          {!isPlaying && (
+            <button
+              type="button"
+              onClick={startVideo}
+              className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 rounded-full border border-white/40 bg-black/55 px-6 py-3 text-xs font-medium uppercase tracking-[0.2em] text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-amber-400 hover:bg-black/75 hover:text-amber-300"
+            >
+              <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/50 text-[10px]">
+                ▶
+              </span>
+
+              {isEnglish ? "Watch video" : "Ver video"}
+            </button>
+          )}
+
+          {isPlaying && (
+            <button
+              type="button"
+              onClick={toggleSound}
+              aria-label={isMuted ? "Turn sound on" : "Mute video"}
+              className="absolute bottom-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400"
+            >
+              {isMuted ? "🔇" : "🔊"}
+            </button>
+          )}
         </div>
       </div>
     </FadeIn>
@@ -256,8 +254,8 @@ export default function ArtisticRosterSection() {
 
         {/* JULIETA + MAGA */}
         <div className="mx-auto mt-20 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistCard {...artists[0]} delay={0.05} />
-          <ArtistCard {...artists[1]} delay={0.1} />
+          <ArtistCard {...artists[0]} delay={0.05} isEnglish={isEnglish} />
+          <ArtistCard {...artists[1]} delay={0.1} isEnglish={isEnglish} />
         </div>
 
         {/* MÚSICA AMBIENTE */}
@@ -270,14 +268,14 @@ export default function ArtisticRosterSection() {
 
         {/* ANTO + MICA */}
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistCard {...artists[2]} delay={0.2} />
-          <ArtistCard {...artists[3]} delay={0.25} />
+          <ArtistCard {...artists[2]} delay={0.2} isEnglish={isEnglish} />
+          <ArtistCard {...artists[3]} delay={0.25} isEnglish={isEnglish} />
         </div>
 
         {/* VERO + EMI */}
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistCard {...artists[4]} delay={0.3} />
-          <ArtistCard {...artists[5]} delay={0.35} />
+          <ArtistCard {...artists[4]} delay={0.3} isEnglish={isEnglish} />
+          <ArtistCard {...artists[5]} delay={0.35} isEnglish={isEnglish} />
         </div>
 
         {/* BRIAN */}
@@ -290,8 +288,8 @@ export default function ArtisticRosterSection() {
 
         {/* SELENE + SHEILA */}
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistCard {...artists[6]} delay={0.45} />
-          <ArtistCard {...artists[7]} delay={0.5} />
+          <ArtistCard {...artists[6]} delay={0.45} isEnglish={isEnglish} />
+          <ArtistCard {...artists[7]} delay={0.5} isEnglish={isEnglish} />
         </div>
 
         {/* SUNSET */}
