@@ -139,35 +139,36 @@ function ArtistCard({
   }, [activeVideo, id, isPlaying]);
 
   useEffect(() => {
-    const container = containerRef.current;
+  const container = containerRef.current;
 
-    if (!container) return;
+  if (!container) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting && isPlaying) {
-          videoRef.current?.pause();
-          setIsPlaying(false);
-          setIsMuted(true);
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (!entry.isIntersecting && isPlaying) {
+        videoRef.current?.pause();
+        setIsPlaying(false);
+        setIsMuted(true);
 
-          if (videoRef.current) {
-            videoRef.current.muted = true;
-          }
-
-          if (activeVideo === id) {
-            setActiveVideo(null);
-          }
+        if (videoRef.current) {
+          videoRef.current.muted = true;
         }
-      },
-      {
-        threshold: 0.05,
+
+        if (activeVideo === id) {
+          setActiveVideo(null);
+        }
       }
-    );
+    },
+    {
+      rootMargin: "300px 0px 300px 0px",
+      threshold: 0,
+    }
+  );
 
-    observer.observe(container);
+  observer.observe(container);
 
-    return () => observer.disconnect();
-  }, [activeVideo, id, isPlaying, setActiveVideo]);
+  return () => observer.disconnect();
+}, [activeVideo, id, isPlaying, setActiveVideo]);
 
   const startVideo = () => {
     setShouldLoad(true);
