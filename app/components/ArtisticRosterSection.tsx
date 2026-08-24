@@ -5,7 +5,7 @@ import Image from "next/image";
 import FadeIn from "./FadeIn";
 import { usePathname } from "next/navigation";
 
-const START_TIME = 0;
+const START_TIME = 1;
 
 const artists = [
   {
