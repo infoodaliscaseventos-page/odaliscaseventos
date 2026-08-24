@@ -10,7 +10,6 @@ export default function Hero() {
 
   return (
     <section className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden bg-black">
-
       {/* VIDEO */}
       <video
         autoPlay
@@ -30,7 +29,6 @@ export default function Hero() {
 
       {/* CONTENT */}
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center px-6 pb-16 pt-28 text-center md:px-10 md:pb-20">
-
         {/* LOGO */}
         <motion.div
           initial={{ opacity: 0, y: -15 }}
@@ -75,7 +73,6 @@ export default function Hero() {
 
           {/* BUTTONS */}
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-
             {/* BOTÓN PRINCIPAL */}
             <a
               href={
@@ -102,7 +99,6 @@ export default function Hero() {
             >
               {isEnglish ? "View experiences" : "Ver experiencias"}
             </a>
-
           </div>
         </motion.div>
       </div>
