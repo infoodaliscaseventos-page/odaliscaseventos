@@ -5,53 +5,67 @@ import Image from "next/image";
 import FadeIn from "./FadeIn";
 import { usePathname } from "next/navigation";
 
-const START_TIME = 1;
+const START_TIME = 0;
 
 const artists = [
   {
+    id: "julieta",
     image: "/media/artists/Julieta/julieta.jpg",
-    video: "/media/artists/Julieta/Julieta-mobile.mp4",
+    video: "/media/artists/Julieta/Julieta-mobile-audio.mp4",
   },
   {
+    id: "maga",
     image: "/media/artists/Maga/maga.jpeg",
-    video: "/media/artists/Maga/Maga-mobile.mp4",
+    video: "/media/artists/Maga/Maga-mobile-audio.mp4",
   },
   {
+    id: "anto",
     image: "/media/artists/Anto/anto.JPEG",
-    video: "/media/artists/Anto/anto-mobile.mp4",
+    video: "/media/artists/Anto/anto-mobile-audio.mp4",
   },
   {
+    id: "mica",
     image: "/media/artists/Mica/micafoto.jpeg",
-    video: "/media/artists/Mica/mica-mobile.mp4",
+    video: "/media/artists/Mica/mica-mobile-audio.mp4",
   },
   {
+    id: "vero",
     image: "/media/artists/Vero/verofoto.jpeg",
-    video: "/media/artists/Vero/vero-mobile.mp4",
+    video: "/media/artists/Vero/vero-mobile-audio.mp4",
   },
   {
+    id: "emi",
     image: "/media/artists/Emi/emi.jpeg",
-    video: "/media/artists/Emi/emi-mobile.mp4",
+    video: "/media/artists/Emi/emi-mobile-audio.mp4",
   },
   {
+    id: "selene",
     image: "/media/artists/Selene/selenejpeg.jpeg",
-    video: "/media/artists/Selene/selene-mobile.mp4",
+    video: "/media/artists/Selene/selene-mobile-audio.mp4",
   },
   {
+    id: "sheila",
     image: "/media/artists/Sheila/sheilaJPEG.jpeg",
-    video: "/media/artists/Sheila/sheila-mobile.mp4",
+    video: "/media/artists/Sheila/sheila-mobile-audio.mp4",
   },
 ];
 
 function ArtistCard({
+  id,
   image,
   video,
   delay,
   isEnglish,
+  activeVideo,
+  setActiveVideo,
 }: {
+  id: string;
   image: string;
   video: string;
   delay: number;
   isEnglish: boolean;
+  activeVideo: string | null;
+  setActiveVideo: (id: string | null) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -59,6 +73,7 @@ function ArtistCard({
   const [shouldLoad, setShouldLoad] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [pendingPlay, setPendingPlay] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -73,7 +88,7 @@ function ArtistCard({
         }
       },
       {
-        rootMargin: "800px 0px",
+        rootMargin: "500px 0px",
       }
     );
 
@@ -82,17 +97,73 @@ function ArtistCard({
     return () => observer.disconnect();
   }, []);
 
-  const startVideo = () => {
-    setIsPlaying(true);
+  useEffect(() => {
+    if (!pendingPlay || !videoRef.current) return;
 
-    requestAnimationFrame(() => {
+    const videoElement = videoRef.current;
+
+    videoElement.muted = true;
+    videoElement.volume = 1;
+    videoElement.currentTime = START_TIME;
+
+    videoElement
+      .play()
+      .then(() => {
+        setIsPlaying(true);
+        setPendingPlay(false);
+      })
+      .catch(() => {
+        setPendingPlay(false);
+      });
+  }, [pendingPlay, shouldLoad]);
+
+  useEffect(() => {
+    if (activeVideo !== id && isPlaying) {
+      videoRef.current?.pause();
+      setIsPlaying(false);
+      setIsMuted(true);
+
       if (videoRef.current) {
-        videoRef.current.currentTime = START_TIME;
         videoRef.current.muted = true;
-
-        videoRef.current.play().catch(() => {});
       }
-    });
+    }
+  }, [activeVideo, id, isPlaying]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && isPlaying) {
+          videoRef.current?.pause();
+          setIsPlaying(false);
+          setIsMuted(true);
+
+          if (videoRef.current) {
+            videoRef.current.muted = true;
+          }
+
+          if (activeVideo === id) {
+            setActiveVideo(null);
+          }
+        }
+      },
+      {
+        threshold: 0.05,
+      }
+    );
+
+    observer.observe(container);
+
+    return () => observer.disconnect();
+  }, [activeVideo, id, isPlaying, setActiveVideo]);
+
+  const startVideo = () => {
+    setShouldLoad(true);
+    setActiveVideo(id);
+    setPendingPlay(true);
   };
 
   const toggleSound = (
@@ -100,14 +171,18 @@ function ArtistCard({
   ) => {
     event.stopPropagation();
 
-    if (!videoRef.current) return;
+    const videoElement = videoRef.current;
+
+    if (!videoElement) return;
 
     const nextMutedState = !isMuted;
 
-    videoRef.current.muted = nextMutedState;
+    videoElement.muted = nextMutedState;
+    videoElement.volume = 1;
+
     setIsMuted(nextMutedState);
 
-    videoRef.current.play().catch(() => {});
+    videoElement.play().catch(() => {});
   };
 
   return (
@@ -124,7 +199,7 @@ function ArtistCard({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className={`absolute inset-0 z-10 object-cover transition-all duration-700 ${
               isPlaying
-                ? "scale-105 opacity-0 pointer-events-none"
+                ? "pointer-events-none scale-105 opacity-0"
                 : "scale-100 opacity-100"
             }`}
           />
@@ -136,7 +211,7 @@ function ArtistCard({
               muted={isMuted}
               loop
               playsInline
-              preload="auto"
+              preload="metadata"
               className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
                 isPlaying ? "opacity-100" : "opacity-0"
               }`}
@@ -174,11 +249,17 @@ function ArtistCard({
 }
 
 function VideoCard({
+  id,
   video,
   delay,
+  activeVideo,
+  setActiveVideo,
 }: {
+  id: string;
   video: string;
   delay: number;
+  activeVideo: string | null;
+  setActiveVideo: (id: string | null) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -199,7 +280,7 @@ function VideoCard({
         }
       },
       {
-        rootMargin: "800px 0px",
+        rootMargin: "500px 0px",
       }
     );
 
@@ -208,15 +289,55 @@ function VideoCard({
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const container = containerRef.current;
+
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          setActiveVideo(id);
+        } else if (activeVideo === id) {
+          setActiveVideo(null);
+        }
+      },
+      {
+        threshold: 0.35,
+      }
+    );
+
+    observer.observe(container);
+
+    return () => observer.disconnect();
+  }, [activeVideo, id, setActiveVideo]);
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+
+    if (!videoElement || !shouldLoad) return;
+
+    if (activeVideo === id) {
+      videoElement.play().catch(() => {});
+    } else {
+      videoElement.pause();
+    }
+  }, [activeVideo, id, shouldLoad]);
+
   const toggleSound = () => {
-    if (!videoRef.current) return;
+    const videoElement = videoRef.current;
+
+    if (!videoElement) return;
 
     const nextMutedState = !isMuted;
 
-    videoRef.current.muted = nextMutedState;
+    videoElement.muted = nextMutedState;
+    videoElement.volume = 1;
+
     setIsMuted(nextMutedState);
 
-    videoRef.current.play().catch(() => {});
+    videoElement.play().catch(() => {});
   };
 
   return (
@@ -231,11 +352,10 @@ function VideoCard({
               <video
                 ref={videoRef}
                 src={video}
-                autoPlay
                 muted={isMuted}
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 className="block h-auto w-full"
               />
 
@@ -258,6 +378,8 @@ function VideoCard({
 export default function ArtisticRosterSection() {
   const pathname = usePathname();
   const isEnglish = pathname.startsWith("/en");
+
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   const whatsappText = isEnglish
     ? "Hello, I would like to learn more about Odaliscas experiences for my event."
@@ -301,51 +423,39 @@ export default function ArtisticRosterSection() {
         </FadeIn>
 
         <div className="mx-auto mt-20 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistCard {...artists[0]} delay={0.05} isEnglish={isEnglish} />
-          <ArtistCard {...artists[1]} delay={0.1} isEnglish={isEnglish} />
+          <ArtistCard {...artists[0]} delay={0.05} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
+          <ArtistCard {...artists[1]} delay={0.1} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
         </div>
 
         <div className="mx-auto mt-8 max-w-6xl">
-          <VideoCard
-            video="/media/live-music/videos/musica-ambiente-web.mp4"
-            delay={0.15}
-          />
+          <VideoCard id="live-music" video="/media/live-music/videos/musica-ambiente-web.mp4" delay={0.15} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
         </div>
 
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistCard {...artists[2]} delay={0.2} isEnglish={isEnglish} />
-          <ArtistCard {...artists[3]} delay={0.25} isEnglish={isEnglish} />
+          <ArtistCard {...artists[2]} delay={0.2} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
+          <ArtistCard {...artists[3]} delay={0.25} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
         </div>
 
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistCard {...artists[4]} delay={0.3} isEnglish={isEnglish} />
-          <ArtistCard {...artists[5]} delay={0.35} isEnglish={isEnglish} />
-        </div>
-
-        <div className="mx-auto mt-8 max-w-6xl">
-          <VideoCard
-            video="/media/artists/brian/Brian-web-mobile.mp4"
-            delay={0.4}
-          />
-        </div>
-
-        <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistCard {...artists[6]} delay={0.45} isEnglish={isEnglish} />
-          <ArtistCard {...artists[7]} delay={0.5} isEnglish={isEnglish} />
-        </div>
-
-        <div className="mx-auto mt-8 max-w-6xl">
-          <VideoCard
-            video="/media/sunset/videos/sunset-web.mp4"
-            delay={0.55}
-          />
+          <ArtistCard {...artists[4]} delay={0.3} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
+          <ArtistCard {...artists[5]} delay={0.35} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
         </div>
 
         <div className="mx-auto mt-8 max-w-xl">
-          <VideoCard
-            video="/images/artists/handpan.mp4"
-            delay={0.6}
-          />
+          <VideoCard id="brian" video="/media/artists/brian/Brian-mobile-final.mp4" delay={0.4} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
+        </div>
+
+        <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
+          <ArtistCard {...artists[6]} delay={0.45} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
+          <ArtistCard {...artists[7]} delay={0.5} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
+        </div>
+
+        <div className="mx-auto mt-8 max-w-6xl">
+          <VideoCard id="sunset" video="/media/sunset/videos/sunset-web.mp4" delay={0.55} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
+        </div>
+
+        <div className="mx-auto mt-8 max-w-xl">
+          <VideoCard id="handpan" video="/images/artists/handpan.mp4" delay={0.6} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
         </div>
 
         <FadeIn delay={0.65}>
