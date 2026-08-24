@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import FadeIn from "./FadeIn";
 import { usePathname } from "next/navigation";
@@ -60,16 +60,19 @@ function ArtistCard({
   const startVideo = () => {
     setIsPlaying(true);
 
-    if (videoRef.current) {
-      videoRef.current.currentTime = START_TIME;
-      videoRef.current.muted = true;
-      videoRef.current.play().catch(() => {});
-    }
+    requestAnimationFrame(() => {
+      if (videoRef.current) {
+        videoRef.current.currentTime = START_TIME;
+        videoRef.current.muted = true;
+        videoRef.current.play().catch(() => {});
+      }
+    });
   };
 
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       videoRef.current.currentTime = START_TIME;
+      videoRef.current.play().catch(() => {});
     }
   };
 
@@ -104,20 +107,18 @@ function ArtistCard({
             }`}
           />
 
-          <video
-            ref={videoRef}
-            src={video}
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            onLoadedMetadata={handleLoadedMetadata}
-            className={`absolute inset-0 h-full w-full object-contain transition-all duration-700 ${
-              isPlaying
-                ? "scale-100 opacity-100"
-                : "scale-100 opacity-0"
-            }`}
-          />
+          {isPlaying && (
+            <video
+              ref={videoRef}
+              src={video}
+              muted
+              loop
+              playsInline
+              preload="auto"
+              onLoadedMetadata={handleLoadedMetadata}
+              className="absolute inset-0 h-full w-full object-contain opacity-100 transition-all duration-700"
+            />
+          )}
 
           {!isPlaying && (
             <button
@@ -156,12 +157,37 @@ function VideoCard({
   video: string;
   delay: number;
 }) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "300px 0px",
+      }
+    );
+
+    observer.observe(container);
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       videoRef.current.currentTime = START_TIME;
+      videoRef.current.play().catch(() => {});
     }
   };
 
@@ -178,28 +204,35 @@ function VideoCard({
 
   return (
     <FadeIn delay={delay}>
-      <div className="overflow-hidden rounded-[24px] border border-white/10 bg-[#090909] transition duration-500 hover:border-amber-400/40">
+      <div
+        ref={containerRef}
+        className="overflow-hidden rounded-[24px] border border-white/10 bg-[#090909] transition duration-500 hover:border-amber-400/40"
+      >
         <div className="relative w-full overflow-hidden bg-black">
-          <video
-            ref={videoRef}
-            src={video}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            onLoadedMetadata={handleLoadedMetadata}
-            className="block h-auto w-full"
-          />
+          {isVisible && (
+            <>
+              <video
+                ref={videoRef}
+                src={video}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                onLoadedMetadata={handleLoadedMetadata}
+                className="block h-auto w-full"
+              />
 
-          <button
-            type="button"
-            onClick={toggleSound}
-            aria-label={isMuted ? "Turn sound on" : "Mute video"}
-            className="absolute bottom-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400"
-          >
-            {isMuted ? "🔇" : "🔊"}
-          </button>
+              <button
+                type="button"
+                onClick={toggleSound}
+                aria-label={isMuted ? "Turn sound on" : "Mute video"}
+                className="absolute bottom-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400"
+              >
+                {isMuted ? "🔇" : "🔊"}
+              </button>
+            </>
+          )}
         </div>
       </div>
     </FadeIn>
@@ -221,7 +254,6 @@ export default function ArtisticRosterSection() {
   return (
     <section id="experiencias" className="bg-black py-24 md:py-36">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
-
         <FadeIn>
           <div className="mx-auto max-w-4xl text-center">
             <p className="text-xs uppercase tracking-[0.55em] text-amber-400 md:text-sm">
@@ -252,13 +284,11 @@ export default function ArtisticRosterSection() {
           </div>
         </FadeIn>
 
-        {/* JULIETA + MAGA */}
         <div className="mx-auto mt-20 grid max-w-6xl gap-6 md:grid-cols-2">
           <ArtistCard {...artists[0]} delay={0.05} isEnglish={isEnglish} />
           <ArtistCard {...artists[1]} delay={0.1} isEnglish={isEnglish} />
         </div>
 
-        {/* MÚSICA AMBIENTE */}
         <div className="mx-auto mt-8 max-w-6xl">
           <VideoCard
             video="/media/live-music/videos/musica-ambiente-web.mp4"
@@ -266,19 +296,16 @@ export default function ArtisticRosterSection() {
           />
         </div>
 
-        {/* ANTO + MICA */}
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
           <ArtistCard {...artists[2]} delay={0.2} isEnglish={isEnglish} />
           <ArtistCard {...artists[3]} delay={0.25} isEnglish={isEnglish} />
         </div>
 
-        {/* VERO + EMI */}
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
           <ArtistCard {...artists[4]} delay={0.3} isEnglish={isEnglish} />
           <ArtistCard {...artists[5]} delay={0.35} isEnglish={isEnglish} />
         </div>
 
-        {/* BRIAN */}
         <div className="mx-auto mt-8 max-w-6xl">
           <VideoCard
             video="/media/artists/brian/Brian-web-mobile.mp4"
@@ -286,13 +313,11 @@ export default function ArtisticRosterSection() {
           />
         </div>
 
-        {/* SELENE + SHEILA */}
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
           <ArtistCard {...artists[6]} delay={0.45} isEnglish={isEnglish} />
           <ArtistCard {...artists[7]} delay={0.5} isEnglish={isEnglish} />
         </div>
 
-        {/* SUNSET */}
         <div className="mx-auto mt-8 max-w-6xl">
           <VideoCard
             video="/media/sunset/videos/sunset-web.mp4"
@@ -300,7 +325,6 @@ export default function ArtisticRosterSection() {
           />
         </div>
 
-        {/* HANDPAN */}
         <div className="mx-auto mt-8 max-w-xl">
           <VideoCard
             video="/images/artists/handpan.mp4"
@@ -326,7 +350,6 @@ export default function ArtisticRosterSection() {
             </a>
           </div>
         </FadeIn>
-
       </div>
     </section>
   );
