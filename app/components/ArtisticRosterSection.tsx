@@ -53,9 +53,34 @@ function ArtistCard({
   delay: number;
   isEnglish: boolean;
 }) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "800px 0px",
+      }
+    );
+
+    observer.observe(container);
+
+    return () => observer.disconnect();
+  }, []);
 
   const startVideo = () => {
     setIsPlaying(true);
@@ -64,16 +89,10 @@ function ArtistCard({
       if (videoRef.current) {
         videoRef.current.currentTime = START_TIME;
         videoRef.current.muted = true;
+
         videoRef.current.play().catch(() => {});
       }
     });
-  };
-
-  const handleLoadedMetadata = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = START_TIME;
-      videoRef.current.play().catch(() => {});
-    }
   };
 
   const toggleSound = (
@@ -93,30 +112,34 @@ function ArtistCard({
 
   return (
     <FadeIn delay={delay}>
-      <div className="group overflow-hidden rounded-[24px] border border-white/10 bg-[#090909] transition duration-500 hover:border-amber-400/40">
+      <div
+        ref={containerRef}
+        className="group overflow-hidden rounded-[24px] border border-white/10 bg-[#090909] transition duration-500 hover:border-amber-400/40"
+      >
         <div className="relative aspect-[4/5] w-full overflow-hidden bg-black">
           <Image
             src={image}
             alt="Odaliscas Eventos artist"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className={`object-cover transition-all duration-700 ${
+            className={`absolute inset-0 z-10 object-cover transition-all duration-700 ${
               isPlaying
-                ? "scale-105 opacity-0"
+                ? "scale-105 opacity-0 pointer-events-none"
                 : "scale-100 opacity-100"
             }`}
           />
 
-          {isPlaying && (
+          {shouldLoad && (
             <video
               ref={videoRef}
               src={video}
-              muted
+              muted={isMuted}
               loop
               playsInline
               preload="auto"
-              onLoadedMetadata={handleLoadedMetadata}
-              className="absolute inset-0 h-full w-full object-contain opacity-100 transition-all duration-700"
+              className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
+                isPlaying ? "opacity-100" : "opacity-0"
+              }`}
             />
           )}
 
@@ -159,7 +182,8 @@ function VideoCard({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
@@ -170,12 +194,12 @@ function VideoCard({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
+          setShouldLoad(true);
           observer.disconnect();
         }
       },
       {
-        rootMargin: "300px 0px",
+        rootMargin: "800px 0px",
       }
     );
 
@@ -183,13 +207,6 @@ function VideoCard({
 
     return () => observer.disconnect();
   }, []);
-
-  const handleLoadedMetadata = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = START_TIME;
-      videoRef.current.play().catch(() => {});
-    }
-  };
 
   const toggleSound = () => {
     if (!videoRef.current) return;
@@ -209,17 +226,16 @@ function VideoCard({
         className="overflow-hidden rounded-[24px] border border-white/10 bg-[#090909] transition duration-500 hover:border-amber-400/40"
       >
         <div className="relative w-full overflow-hidden bg-black">
-          {isVisible && (
+          {shouldLoad && (
             <>
               <video
                 ref={videoRef}
                 src={video}
                 autoPlay
-                muted
+                muted={isMuted}
                 loop
                 playsInline
-                preload="metadata"
-                onLoadedMetadata={handleLoadedMetadata}
+                preload="auto"
                 className="block h-auto w-full"
               />
 
