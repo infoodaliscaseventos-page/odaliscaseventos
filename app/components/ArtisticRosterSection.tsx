@@ -81,17 +81,26 @@ function ArtistCard({
     if (!container) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldLoad(true);
-          observer.disconnect();
-        }
-      },
-      {
-        rootMargin: "500px 0px",
-      }
-    );
+  ([entry]) => {
+    if (!entry.isIntersecting && isPlaying) {
+      videoRef.current?.pause();
+      setIsPlaying(false);
+      setIsMuted(true);
 
+      if (videoRef.current) {
+        videoRef.current.muted = true;
+      }
+
+      if (activeVideo === id) {
+        setActiveVideo(null);
+      }
+    }
+  },
+  {
+    rootMargin: "300px 0px 300px 0px",
+    threshold: 0,
+  }
+);
     observer.observe(container);
 
     return () => observer.disconnect();
