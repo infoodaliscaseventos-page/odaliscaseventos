@@ -10,7 +10,7 @@ const START_TIME = 1;
 const artists = [
   {
     image: "/media/artists/Julieta/julieta.jpg",
-    video: "/media/artists/Julieta/Julieta-web-compressed.mp4",
+    video: "/media/artists/Julieta/Julieta-mobile.mp4",
   },
   {
     image: "/media/artists/Maga/maga.jpeg",
