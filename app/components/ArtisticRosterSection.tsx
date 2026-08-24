@@ -112,26 +112,26 @@ function ArtistCard({
             playsInline
             preload="metadata"
             onLoadedMetadata={handleLoadedMetadata}
-            className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${
+            className={`absolute inset-0 h-full w-full object-contain transition-all duration-700 ${
               isPlaying
                 ? "scale-100 opacity-100"
                 : "scale-100 opacity-0"
             }`}
           />
 
-         {!isPlaying && (
-  <button
-    type="button"
-    onClick={startVideo}
-    className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/40 bg-black/55 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-amber-400 hover:bg-black/75 hover:text-amber-300"
-  >
-    <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/50 text-[8px]">
-      ▶
-    </span>
+          {!isPlaying && (
+            <button
+              type="button"
+              onClick={startVideo}
+              className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/40 bg-black/55 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-amber-400 hover:bg-black/75 hover:text-amber-300"
+            >
+              <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/50 text-[8px]">
+                ▶
+              </span>
 
-    {isEnglish ? "Watch video" : "Ver video"}
-  </button>
-)}
+              {isEnglish ? "Watch video" : "Ver video"}
+            </button>
+          )}
 
           {isPlaying && (
             <button
