@@ -14,31 +14,31 @@ const artists = [
   },
   {
     image: "/media/artists/Maga/maga.jpeg",
-    video: "/media/artists/Maga/Maga-web-compressed.mp4",
+    video: "/media/artists/Maga/Maga-mobile.mp4",
   },
   {
     image: "/media/artists/Anto/anto.JPEG",
-    video: "/media/artists/Anto/anto-web-compressed.mp4",
+    video: "/media/artists/Anto/anto-mobile.mp4",
   },
   {
     image: "/media/artists/Mica/micafoto.jpeg",
-    video: "/media/artists/Mica/mica-web-compressed.mp4",
+    video: "/media/artists/Mica/mica-mobile.mp4",
   },
   {
     image: "/media/artists/Vero/verofoto.jpeg",
-    video: "/media/artists/Vero/vero-web-compressed.mp4",
+    video: "/media/artists/Vero/vero-mobile.mp4",
   },
   {
     image: "/media/artists/Emi/emi.jpeg",
-    video: "/media/artists/Emi/emi-web-compressed.mp4",
+    video: "/media/artists/Emi/emi-mobile.mp4",
   },
   {
     image: "/media/artists/Selene/selenejpeg.jpeg",
-    video: "/media/artists/Selene/selene-web-compressed.mp4",
+    video: "/media/artists/Selene/selene-mobile.mp4",
   },
   {
     image: "/media/artists/Sheila/sheilaJPEG.jpeg",
-    video: "/media/artists/Sheila/sheila-web-compressed.mp4",
+    video: "/media/artists/Sheila/sheila-mobile.mp4",
   },
 ];
 
