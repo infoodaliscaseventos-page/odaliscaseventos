@@ -58,6 +58,19 @@ const artists = [
   },
 ];
 
+type ArtistCardProps = {
+  id: string;
+  image: string;
+  video: string;
+  group: number;
+  delay: number;
+  isEnglish: boolean;
+  activeVideo: string | null;
+  setActiveVideo: (id: string | null) => void;
+  loadedGroups: boolean[];
+  loadGroup: (group: number) => void;
+};
+
 function ArtistCard({
   id,
   image,
@@ -69,28 +82,13 @@ function ArtistCard({
   setActiveVideo,
   loadedGroups,
   loadGroup,
-}: {
-  id: string;
-  image: string;
-  video: string;
-  group: number;
-  delay: number;
-  isEnglish: boolean;
-  activeVideo: string | null;
-  setActiveVideo: (id: string | null) => void;
-  loadedGroups: boolean[];
-  loadGroup: (group: number) => void;
-}) {
+}: ArtistCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
 
-  /*
-    Precargamos el grupo con bastante margen antes de llegar
-    a las tarjetas.
-  */
   useEffect(() => {
     const container = containerRef.current;
 
@@ -104,7 +102,7 @@ function ArtistCard({
         }
       },
       {
-        rootMargin: "1400px 0px 1400px 0px",
+        rootMargin: "1400px 0px",
         threshold: 0,
       }
     );
@@ -114,10 +112,6 @@ function ArtistCard({
     return () => observer.disconnect();
   }, [group, loadedGroups, loadGroup]);
 
-  /*
-    Si otro video pasa a ser el activo,
-    este se pausa.
-  */
   useEffect(() => {
     if (activeVideo !== id && isPlaying) {
       const videoElement = videoRef.current;
@@ -132,77 +126,67 @@ function ArtistCard({
     }
   }, [activeVideo, id, isPlaying]);
 
-  /*
-    Cuando el video termina de cargar sus datos,
-    lo dejamos listo desde el segundo 1.
-  */
   const handleLoadedMetadata = () => {
     const videoElement = videoRef.current;
 
     if (!videoElement) return;
 
     try {
-      if (videoElement.duration > START_TIME) {
-        videoElement.currentTime = START_TIME;
-      }
+      videoElement.currentTime = START_TIME;
     } catch {}
   };
 
-  /*
-    IMPORTANTE:
-    play() se ejecuta directamente dentro del click.
-    Esto evita el bloqueo de reproducción en celular.
-  */
   const startVideo = () => {
-    const videoElement = videoRef.current;
-
     loadGroup(group);
-    setActiveVideo(id);
+
+    const videoElement = videoRef.current;
 
     if (!videoElement) return;
 
+    setActiveVideo(id);
+
+    videoElement.pause();
     videoElement.muted = true;
     videoElement.volume = 1;
 
     setIsMuted(true);
 
     try {
-      if (videoElement.readyState >= 1) {
-        videoElement.currentTime = START_TIME;
-      }
+      videoElement.currentTime = START_TIME;
     } catch {}
 
-    videoElement
-      .play()
-      .then(() => {
-        setIsPlaying(true);
-      })
-      .catch(() => {
-        /*
-          Si todavía estaba cargando, esperamos a que pueda
-          reproducirse, pero mantenemos la preparación lista.
-        */
-        const playWhenReady = () => {
-          const currentVideo = videoRef.current;
+    const playPromise = videoElement.play();
 
-          if (!currentVideo) return;
+    if (playPromise) {
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch(() => {
+          const retryPlay = () => {
+            const currentVideo = videoRef.current;
 
-          try {
-            currentVideo.currentTime = START_TIME;
-          } catch {}
+            if (!currentVideo) return;
 
-          currentVideo
-            .play()
-            .then(() => {
-              setIsPlaying(true);
-            })
-            .catch(() => {});
-        };
+            currentVideo.muted = true;
 
-        videoElement.addEventListener("canplay", playWhenReady, {
-          once: true,
+            try {
+              currentVideo.currentTime = START_TIME;
+            } catch {}
+
+            currentVideo
+              .play()
+              .then(() => {
+                setIsPlaying(true);
+              })
+              .catch(() => {});
+          };
+
+          videoElement.addEventListener("canplay", retryPlay, {
+            once: true,
+          });
         });
-      });
+    }
   };
 
   const toggleSound = (
@@ -214,16 +198,10 @@ function ArtistCard({
 
     if (!videoElement) return;
 
-    const nextMutedState = !videoElement.muted;
-
-    videoElement.muted = nextMutedState;
+    videoElement.muted = !videoElement.muted;
     videoElement.volume = 1;
 
-    setIsMuted(nextMutedState);
-
-    if (videoElement.paused) {
-      videoElement.play().catch(() => {});
-    }
+    setIsMuted(videoElement.muted);
   };
 
   return (
@@ -238,7 +216,7 @@ function ArtistCard({
             alt="Odaliscas Eventos artist"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className={`absolute inset-0 z-10 object-cover transition-all duration-500 ${
+            className={`absolute inset-0 z-10 object-cover transition-opacity duration-300 ${
               isPlaying
                 ? "pointer-events-none opacity-0"
                 : "opacity-100"
@@ -253,8 +231,8 @@ function ArtistCard({
             playsInline
             preload={loadedGroups[group] ? "auto" : "metadata"}
             onLoadedMetadata={handleLoadedMetadata}
-            className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ${
-              isPlaying ? "opacity-100" : "opacity-0"
+            className={`absolute inset-0 z-20 h-full w-full object-contain transition-opacity duration-300 ${
+              isPlaying ? "opacity-100" : "pointer-events-none opacity-0"
             }`}
           />
 
@@ -288,29 +266,32 @@ function ArtistCard({
   );
 }
 
+type VideoCardProps = {
+  id: string;
+  video: string;
+  delay: number;
+  activeVideo: string | null;
+  setActiveVideo: (id: string | null) => void;
+};
+
 function VideoCard({
   id,
   video,
   delay,
   activeVideo,
   setActiveVideo,
-}: {
-  id: string;
-  video: string;
-  delay: number;
-  activeVideo: string | null;
-  setActiveVideo: (id: string | null) => void;
-}) {
+}: VideoCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const [shouldLoad, setShouldLoad] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
     const container = containerRef.current;
 
-    if (!container) return;
+    if (!container || shouldLoad) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -320,66 +301,89 @@ function VideoCard({
         }
       },
       {
-        rootMargin: "700px 0px 700px 0px",
+        rootMargin: "1000px 0px",
+        threshold: 0,
       }
     );
 
     observer.observe(container);
 
     return () => observer.disconnect();
-  }, []);
+  }, [shouldLoad]);
 
   useEffect(() => {
-    const container = containerRef.current;
+    if (activeVideo !== id && isPlaying) {
+      const videoElement = videoRef.current;
 
-    if (!container) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldLoad(true);
-          setActiveVideo(id);
-        } else if (activeVideo === id) {
-          setActiveVideo(null);
-        }
-      },
-      {
-        threshold: 0.2,
+      if (videoElement) {
+        videoElement.pause();
+        videoElement.muted = true;
       }
-    );
 
-    observer.observe(container);
-
-    return () => observer.disconnect();
-  }, [activeVideo, id, setActiveVideo]);
-
-  useEffect(() => {
-    const videoElement = videoRef.current;
-
-    if (!videoElement || !shouldLoad) return;
-
-    if (activeVideo === id) {
-      videoElement.play().catch(() => {});
-    } else {
-      videoElement.pause();
+      setIsPlaying(false);
+      setIsMuted(true);
     }
-  }, [activeVideo, id, shouldLoad]);
+  }, [activeVideo, id, isPlaying]);
 
-  const toggleSound = () => {
+  const startVideo = () => {
+    setShouldLoad(true);
+    setActiveVideo(id);
+
+    requestAnimationFrame(() => {
+      const videoElement = videoRef.current;
+
+      if (!videoElement) return;
+
+      videoElement.pause();
+      videoElement.muted = true;
+      videoElement.volume = 1;
+
+      setIsMuted(true);
+
+      const playPromise = videoElement.play();
+
+      if (playPromise) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch(() => {
+            const retryPlay = () => {
+              const currentVideo = videoRef.current;
+
+              if (!currentVideo) return;
+
+              currentVideo.muted = true;
+
+              currentVideo
+                .play()
+                .then(() => {
+                  setIsPlaying(true);
+                })
+                .catch(() => {});
+            };
+
+            videoElement.addEventListener("canplay", retryPlay, {
+              once: true,
+            });
+          });
+      }
+    });
+  };
+
+  const toggleSound = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.stopPropagation();
+
     const videoElement = videoRef.current;
 
     if (!videoElement) return;
 
-    const nextMutedState = !videoElement.muted;
-
-    videoElement.muted = nextMutedState;
+    videoElement.muted = !videoElement.muted;
     videoElement.volume = 1;
 
-    setIsMuted(nextMutedState);
-
-    if (videoElement.paused) {
-      videoElement.play().catch(() => {});
-    }
+    setIsMuted(videoElement.muted);
   };
 
   return (
@@ -390,26 +394,40 @@ function VideoCard({
       >
         <div className="relative w-full overflow-hidden bg-black">
           {shouldLoad && (
-            <>
-              <video
-                ref={videoRef}
-                src={video}
-                muted
-                loop
-                playsInline
-                preload="auto"
-                className="block h-auto w-full"
-              />
+            <video
+              ref={videoRef}
+              src={video}
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className="block h-auto w-full"
+            />
+          )}
 
-              <button
-                type="button"
-                onClick={toggleSound}
-                aria-label={isMuted ? "Turn sound on" : "Mute video"}
-                className="absolute bottom-4 right-4 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400"
-              >
-                {isMuted ? "🔇" : "🔊"}
-              </button>
-            </>
+          {!isPlaying && (
+            <button
+              type="button"
+              onClick={startVideo}
+              className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/40 bg-black/60 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-amber-400 hover:bg-black/80 hover:text-amber-300"
+            >
+              <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/50 text-[8px]">
+                ▶
+              </span>
+
+              Ver video
+            </button>
+          )}
+
+          {isPlaying && (
+            <button
+              type="button"
+              onClick={toggleSound}
+              aria-label={isMuted ? "Turn sound on" : "Mute video"}
+              className="absolute bottom-4 right-4 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400"
+            >
+              {isMuted ? "🔇" : "🔊"}
+            </button>
           )}
         </div>
       </div>
@@ -423,11 +441,6 @@ export default function ArtisticRosterSection() {
 
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
-  /*
-    Grupos de bailarinas.
-    El primero queda disponible inmediatamente.
-    Los siguientes se precargan con anticipación al acercarse.
-  */
   const [loadedGroups, setLoadedGroups] = useState<boolean[]>([
     true,
     false,
@@ -487,131 +500,39 @@ export default function ArtisticRosterSection() {
         </FadeIn>
 
         <div className="mx-auto mt-20 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistCard
-            {...artists[0]}
-            delay={0.05}
-            isEnglish={isEnglish}
-            activeVideo={activeVideo}
-            setActiveVideo={setActiveVideo}
-            loadedGroups={loadedGroups}
-            loadGroup={loadGroup}
-          />
-
-          <ArtistCard
-            {...artists[1]}
-            delay={0.1}
-            isEnglish={isEnglish}
-            activeVideo={activeVideo}
-            setActiveVideo={setActiveVideo}
-            loadedGroups={loadedGroups}
-            loadGroup={loadGroup}
-          />
+          <ArtistCard {...artists[0]} delay={0.05} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} loadedGroups={loadedGroups} loadGroup={loadGroup} />
+          <ArtistCard {...artists[1]} delay={0.1} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} loadedGroups={loadedGroups} loadGroup={loadGroup} />
         </div>
 
         <div className="mx-auto mt-8 max-w-6xl">
-          <VideoCard
-            id="live-music"
-            video="/media/live-music/videos/musica-ambiente-web.mp4"
-            delay={0.15}
-            activeVideo={activeVideo}
-            setActiveVideo={setActiveVideo}
-          />
+          <VideoCard id="live-music" video="/media/live-music/videos/musica-ambiente-web.mp4" delay={0.15} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
         </div>
 
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistCard
-            {...artists[2]}
-            delay={0.2}
-            isEnglish={isEnglish}
-            activeVideo={activeVideo}
-            setActiveVideo={setActiveVideo}
-            loadedGroups={loadedGroups}
-            loadGroup={loadGroup}
-          />
-
-          <ArtistCard
-            {...artists[3]}
-            delay={0.25}
-            isEnglish={isEnglish}
-            activeVideo={activeVideo}
-            setActiveVideo={setActiveVideo}
-            loadedGroups={loadedGroups}
-            loadGroup={loadGroup}
-          />
+          <ArtistCard {...artists[2]} delay={0.2} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} loadedGroups={loadedGroups} loadGroup={loadGroup} />
+          <ArtistCard {...artists[3]} delay={0.25} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} loadedGroups={loadedGroups} loadGroup={loadGroup} />
         </div>
 
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistCard
-            {...artists[4]}
-            delay={0.3}
-            isEnglish={isEnglish}
-            activeVideo={activeVideo}
-            setActiveVideo={setActiveVideo}
-            loadedGroups={loadedGroups}
-            loadGroup={loadGroup}
-          />
-
-          <ArtistCard
-            {...artists[5]}
-            delay={0.35}
-            isEnglish={isEnglish}
-            activeVideo={activeVideo}
-            setActiveVideo={setActiveVideo}
-            loadedGroups={loadedGroups}
-            loadGroup={loadGroup}
-          />
+          <ArtistCard {...artists[4]} delay={0.3} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} loadedGroups={loadedGroups} loadGroup={loadGroup} />
+          <ArtistCard {...artists[5]} delay={0.35} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} loadedGroups={loadedGroups} loadGroup={loadGroup} />
         </div>
 
         <div className="mx-auto mt-8 max-w-xl">
-          <VideoCard
-            id="brian"
-            video="/media/artists/brian/Brian-mobile-final.mp4"
-            delay={0.4}
-            activeVideo={activeVideo}
-            setActiveVideo={setActiveVideo}
-          />
+          <VideoCard id="brian" video="/media/artists/brian/Brian-mobile-final.mp4" delay={0.4} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
         </div>
 
         <div className="mx-auto mt-8 grid max-w-6xl gap-6 md:grid-cols-2">
-          <ArtistCard
-            {...artists[6]}
-            delay={0.45}
-            isEnglish={isEnglish}
-            activeVideo={activeVideo}
-            setActiveVideo={setActiveVideo}
-            loadedGroups={loadedGroups}
-            loadGroup={loadGroup}
-          />
-
-          <ArtistCard
-            {...artists[7]}
-            delay={0.5}
-            isEnglish={isEnglish}
-            activeVideo={activeVideo}
-            setActiveVideo={setActiveVideo}
-            loadedGroups={loadedGroups}
-            loadGroup={loadGroup}
-          />
+          <ArtistCard {...artists[6]} delay={0.45} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} loadedGroups={loadedGroups} loadGroup={loadGroup} />
+          <ArtistCard {...artists[7]} delay={0.5} isEnglish={isEnglish} activeVideo={activeVideo} setActiveVideo={setActiveVideo} loadedGroups={loadedGroups} loadGroup={loadGroup} />
         </div>
 
         <div className="mx-auto mt-8 max-w-6xl">
-          <VideoCard
-            id="sunset"
-            video="/media/sunset/videos/sunset-web.mp4"
-            delay={0.55}
-            activeVideo={activeVideo}
-            setActiveVideo={setActiveVideo}
-          />
+          <VideoCard id="sunset" video="/media/sunset/videos/sunset-web.mp4" delay={0.55} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
         </div>
 
         <div className="mx-auto mt-8 max-w-xl">
-          <VideoCard
-            id="handpan"
-            video="/images/artists/handpan.mp4"
-            delay={0.6}
-            activeVideo={activeVideo}
-            setActiveVideo={setActiveVideo}
-          />
+          <VideoCard id="handpan" video="/images/artists/handpan.mp4" delay={0.6} activeVideo={activeVideo} setActiveVideo={setActiveVideo} />
         </div>
 
         <FadeIn delay={0.65}>
