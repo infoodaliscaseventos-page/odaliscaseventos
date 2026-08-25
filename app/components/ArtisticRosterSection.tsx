@@ -86,18 +86,15 @@ function ArtistCard({
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-  const [pendingPlay, setPendingPlay] = useState(false);
-
-  const groupLoaded = loadedGroups[group];
 
   /*
-    Precarga el grupo antes de que el usuario llegue exactamente
-    a las tarjetas. Esto evita depender de un encuadre preciso.
+    Precargamos el grupo con bastante margen antes de llegar
+    a las tarjetas.
   */
   useEffect(() => {
     const container = containerRef.current;
 
-    if (!container || groupLoaded) return;
+    if (!container || loadedGroups[group]) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -107,7 +104,7 @@ function ArtistCard({
         }
       },
       {
-        rootMargin: "1200px 0px 1200px 0px",
+        rootMargin: "1400px 0px 1400px 0px",
         threshold: 0,
       }
     );
@@ -115,64 +112,19 @@ function ArtistCard({
     observer.observe(container);
 
     return () => observer.disconnect();
-  }, [group, groupLoaded, loadGroup]);
+  }, [group, loadedGroups, loadGroup]);
 
   /*
-    Cuando el usuario toca Ver video, si el grupo todavía no estaba
-    cargado se carga primero y luego reproduce automáticamente.
-  */
-  useEffect(() => {
-    if (!pendingPlay || !groupLoaded || !videoRef.current) return;
-
-    const videoElement = videoRef.current;
-
-    const startPlayback = () => {
-      try {
-        videoElement.muted = true;
-        videoElement.volume = 1;
-
-        if (Number.isFinite(videoElement.duration)) {
-          videoElement.currentTime = START_TIME;
-        }
-
-        videoElement
-          .play()
-          .then(() => {
-            setIsPlaying(true);
-            setPendingPlay(false);
-          })
-          .catch(() => {
-            setPendingPlay(false);
-          });
-      } catch {
-        setPendingPlay(false);
-      }
-    };
-
-    if (videoElement.readyState >= 2) {
-      startPlayback();
-      return;
-    }
-
-    videoElement.addEventListener("canplay", startPlayback, {
-      once: true,
-    });
-
-    return () => {
-      videoElement.removeEventListener("canplay", startPlayback);
-    };
-  }, [pendingPlay, groupLoaded]);
-
-  /*
-    Solo se pausa cuando otro video pasa a ser el activo.
-    NO depende de la posición en pantalla.
+    Si otro video pasa a ser el activo,
+    este se pausa.
   */
   useEffect(() => {
     if (activeVideo !== id && isPlaying) {
-      videoRef.current?.pause();
+      const videoElement = videoRef.current;
 
-      if (videoRef.current) {
-        videoRef.current.muted = true;
+      if (videoElement) {
+        videoElement.pause();
+        videoElement.muted = true;
       }
 
       setIsPlaying(false);
@@ -180,10 +132,77 @@ function ArtistCard({
     }
   }, [activeVideo, id, isPlaying]);
 
+  /*
+    Cuando el video termina de cargar sus datos,
+    lo dejamos listo desde el segundo 1.
+  */
+  const handleLoadedMetadata = () => {
+    const videoElement = videoRef.current;
+
+    if (!videoElement) return;
+
+    try {
+      if (videoElement.duration > START_TIME) {
+        videoElement.currentTime = START_TIME;
+      }
+    } catch {}
+  };
+
+  /*
+    IMPORTANTE:
+    play() se ejecuta directamente dentro del click.
+    Esto evita el bloqueo de reproducción en celular.
+  */
   const startVideo = () => {
+    const videoElement = videoRef.current;
+
     loadGroup(group);
     setActiveVideo(id);
-    setPendingPlay(true);
+
+    if (!videoElement) return;
+
+    videoElement.muted = true;
+    videoElement.volume = 1;
+
+    setIsMuted(true);
+
+    try {
+      if (videoElement.readyState >= 1) {
+        videoElement.currentTime = START_TIME;
+      }
+    } catch {}
+
+    videoElement
+      .play()
+      .then(() => {
+        setIsPlaying(true);
+      })
+      .catch(() => {
+        /*
+          Si todavía estaba cargando, esperamos a que pueda
+          reproducirse, pero mantenemos la preparación lista.
+        */
+        const playWhenReady = () => {
+          const currentVideo = videoRef.current;
+
+          if (!currentVideo) return;
+
+          try {
+            currentVideo.currentTime = START_TIME;
+          } catch {}
+
+          currentVideo
+            .play()
+            .then(() => {
+              setIsPlaying(true);
+            })
+            .catch(() => {});
+        };
+
+        videoElement.addEventListener("canplay", playWhenReady, {
+          once: true,
+        });
+      });
   };
 
   const toggleSound = (
@@ -195,14 +214,16 @@ function ArtistCard({
 
     if (!videoElement) return;
 
-    const nextMutedState = !isMuted;
+    const nextMutedState = !videoElement.muted;
 
     videoElement.muted = nextMutedState;
     videoElement.volume = 1;
 
     setIsMuted(nextMutedState);
 
-    videoElement.play().catch(() => {});
+    if (videoElement.paused) {
+      videoElement.play().catch(() => {});
+    }
   };
 
   return (
@@ -217,32 +238,31 @@ function ArtistCard({
             alt="Odaliscas Eventos artist"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className={`absolute inset-0 z-10 object-cover transition-all duration-700 ${
+            className={`absolute inset-0 z-10 object-cover transition-all duration-500 ${
               isPlaying
-                ? "pointer-events-none scale-105 opacity-0"
-                : "scale-100 opacity-100"
+                ? "pointer-events-none opacity-0"
+                : "opacity-100"
             }`}
           />
 
-          {groupLoaded && (
-            <video
-              ref={videoRef}
-              src={video}
-              muted={isMuted}
-              loop
-              playsInline
-              preload="auto"
-              className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
-                isPlaying ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          )}
+          <video
+            ref={videoRef}
+            src={video}
+            muted
+            loop
+            playsInline
+            preload={loadedGroups[group] ? "auto" : "metadata"}
+            onLoadedMetadata={handleLoadedMetadata}
+            className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ${
+              isPlaying ? "opacity-100" : "opacity-0"
+            }`}
+          />
 
           {!isPlaying && (
             <button
               type="button"
               onClick={startVideo}
-              className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/40 bg-black/55 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-amber-400 hover:bg-black/75 hover:text-amber-300"
+              className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/40 bg-black/60 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-amber-400 hover:bg-black/80 hover:text-amber-300"
             >
               <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/50 text-[8px]">
                 ▶
@@ -257,7 +277,7 @@ function ArtistCard({
               type="button"
               onClick={toggleSound}
               aria-label={isMuted ? "Turn sound on" : "Mute video"}
-              className="absolute bottom-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400"
+              className="absolute bottom-4 right-4 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400"
             >
               {isMuted ? "🔇" : "🔊"}
             </button>
@@ -300,7 +320,7 @@ function VideoCard({
         }
       },
       {
-        rootMargin: "500px 0px",
+        rootMargin: "700px 0px 700px 0px",
       }
     );
 
@@ -324,7 +344,7 @@ function VideoCard({
         }
       },
       {
-        threshold: 0.35,
+        threshold: 0.2,
       }
     );
 
@@ -350,14 +370,16 @@ function VideoCard({
 
     if (!videoElement) return;
 
-    const nextMutedState = !isMuted;
+    const nextMutedState = !videoElement.muted;
 
     videoElement.muted = nextMutedState;
     videoElement.volume = 1;
 
     setIsMuted(nextMutedState);
 
-    videoElement.play().catch(() => {});
+    if (videoElement.paused) {
+      videoElement.play().catch(() => {});
+    }
   };
 
   return (
@@ -372,10 +394,10 @@ function VideoCard({
               <video
                 ref={videoRef}
                 src={video}
-                muted={isMuted}
+                muted
                 loop
                 playsInline
-                preload="metadata"
+                preload="auto"
                 className="block h-auto w-full"
               />
 
@@ -383,7 +405,7 @@ function VideoCard({
                 type="button"
                 onClick={toggleSound}
                 aria-label={isMuted ? "Turn sound on" : "Mute video"}
-                className="absolute bottom-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400"
+                className="absolute bottom-4 right-4 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:border-amber-400 hover:text-amber-400"
               >
                 {isMuted ? "🔇" : "🔊"}
               </button>
@@ -402,9 +424,9 @@ export default function ArtisticRosterSection() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   /*
-    Grupo 0 se prepara desde el inicio.
-    Los demás grupos se activan cuando el usuario se acerca
-    a cualquiera de sus tarjetas.
+    Grupos de bailarinas.
+    El primero queda disponible inmediatamente.
+    Los siguientes se precargan con anticipación al acercarse.
   */
   const [loadedGroups, setLoadedGroups] = useState<boolean[]>([
     true,
