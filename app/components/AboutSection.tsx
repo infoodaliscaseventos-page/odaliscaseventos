@@ -17,7 +17,6 @@ export default function AboutSection() {
         {/* ENCABEZADO */}
 
         <div className="mb-16 max-w-4xl">
-
           <p className="text-xs uppercase tracking-[0.55em] text-amber-400 md:text-sm">
             {isEnglish ? "ABOUT US" : "NOSOTROS"}
           </p>
@@ -37,7 +36,6 @@ export default function AboutSection() {
               </>
             )}
           </h2>
-
         </div>
 
         {/* FUNDADOR */}
@@ -47,9 +45,8 @@ export default function AboutSection() {
           {/* FOTO */}
 
           <div className="relative overflow-hidden rounded-[30px] bg-black">
-
             <Image
-              src="/images/founder/brian-founder.jpg"
+              src="/images/founder/brian-about.JPG"
               alt={
                 isEnglish
                   ? "Brian Brandán, founder and artistic director specializing in Arabic music, percussion and artistic production"
@@ -67,13 +64,11 @@ export default function AboutSection() {
                 hover:scale-[1.02]
               "
             />
-
           </div>
 
           {/* TEXTO */}
 
           <div>
-
             <p className="text-xs uppercase tracking-[0.45em] text-amber-400">
               {isEnglish
                 ? "FOUNDER & ARTISTIC DIRECTOR"
@@ -115,11 +110,9 @@ export default function AboutSection() {
                 ? "Today, Odaliscas Eventos brings together that experience to create Arabic artistic experiences ranging from belly dance shows and live Arabic music to complete artistic productions for private events, weddings, hotels, restaurants and international projects."
                 : "Hoy, Odaliscas Eventos reúne toda esa experiencia para crear experiencias artísticas árabes que van desde shows de odaliscas y danza del vientre, música árabe en vivo y performances musicales, hasta producciones artísticas integrales para eventos privados, casamientos, hoteles, restaurantes y proyectos internacionales."}
             </p>
-
           </div>
 
         </div>
-
       </div>
     </section>
   );

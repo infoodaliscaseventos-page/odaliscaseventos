@@ -16,7 +16,6 @@ export default function HeaderDesktop() {
 
   return (
     <div className="mx-auto hidden h-20 max-w-7xl items-center justify-between px-8 lg:flex">
-
       {/* Logo */}
 
       <a href={isEnglish ? "/en" : "/"} className="flex items-center">
@@ -29,8 +28,7 @@ export default function HeaderDesktop() {
 
       {/* Navegación */}
 
-      <nav className="flex items-center gap-14 uppercase tracking-[0.24em] text-[15px] text-white">
-
+      <nav className="flex items-center gap-8 uppercase tracking-[0.18em] text-[12px] text-white">
         <a
           href={isEnglish ? "/en" : "/"}
           className="transition hover:text-amber-400"
@@ -46,10 +44,24 @@ export default function HeaderDesktop() {
         </a>
 
         <a
+          href={isEnglish ? "/en#experiencias" : "#experiencias"}
+          className="transition hover:text-amber-400"
+        >
+          {isEnglish ? "ARTISTS" : "ARTISTAS"}
+        </a>
+
+        <a
+          href={isEnglish ? "/en#gastronomia" : "#gastronomia"}
+          className="transition hover:text-amber-400"
+        >
+          {isEnglish ? "GASTRONOMY" : "GASTRONOMÍA"}
+        </a>
+
+        <a
           href={isEnglish ? "/en#nosotros" : "#nosotros"}
           className="transition hover:text-amber-400"
         >
-          {isEnglish ? "ABOUT US" : "NOSOTROS"}
+          {isEnglish ? "ABOUT" : "NOSOTROS"}
         </a>
 
         <a
@@ -58,13 +70,11 @@ export default function HeaderDesktop() {
         >
           {isEnglish ? "CONTACT" : "CONTACTO"}
         </a>
-
       </nav>
 
       {/* Idioma + Botón */}
 
-      <div className="flex items-center gap-6">
-
+      <div className="flex items-center gap-5">
         <a
           href="/"
           className={`text-sm uppercase tracking-[0.2em] transition ${
@@ -91,13 +101,11 @@ export default function HeaderDesktop() {
           href={whatsappLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-full border border-amber-500 px-8 py-3 text-[13px] uppercase tracking-[0.22em] text-amber-400 transition-all duration-300 hover:bg-amber-500 hover:text-black"
+          className="rounded-full border border-amber-500 px-6 py-3 text-[11px] uppercase tracking-[0.18em] text-amber-400 transition-all duration-300 hover:bg-amber-500 hover:text-black"
         >
           {isEnglish ? "REQUEST A PROPOSAL" : "SOLICITAR PROPUESTA"}
         </a>
-
       </div>
-
     </div>
   );
 }

@@ -21,6 +21,7 @@ export default function HeaderMobile() {
   return (
     <div className="lg:hidden">
       {/* Header */}
+
       <div className="fixed left-0 right-0 top-0 z-50 flex h-20 items-center justify-between border-b border-white/10 bg-black/70 px-5 backdrop-blur-md">
         <a
           href={isEnglish ? "/en" : "/"}
@@ -70,9 +71,10 @@ export default function HeaderMobile() {
       </div>
 
       {/* Menú */}
+
       {open && (
-        <div className="fixed inset-0 z-40 bg-black/95 px-8 pt-28 backdrop-blur-xl">
-          <nav className="flex flex-col gap-7 text-sm uppercase tracking-[0.25em] text-white">
+        <div className="fixed inset-0 z-40 overflow-y-auto bg-black/95 px-8 pb-10 pt-28 backdrop-blur-xl">
+          <nav className="flex flex-col gap-6 text-sm uppercase tracking-[0.25em] text-white">
             <a
               href={isEnglish ? "/en" : "/"}
               onClick={closeMenu}
@@ -90,11 +92,27 @@ export default function HeaderMobile() {
             </a>
 
             <a
+              href={isEnglish ? "/en#artistas" : "#artistas"}
+              onClick={closeMenu}
+              className="transition hover:text-amber-400"
+            >
+              {isEnglish ? "ARTISTS" : "ARTISTAS"}
+            </a>
+
+            <a
+              href={isEnglish ? "/en#gastronomia" : "#gastronomia"}
+              onClick={closeMenu}
+              className="transition hover:text-amber-400"
+            >
+              {isEnglish ? "GASTRONOMY" : "GASTRONOMÍA"}
+            </a>
+
+            <a
               href={isEnglish ? "/en#nosotros" : "#nosotros"}
               onClick={closeMenu}
               className="transition hover:text-amber-400"
             >
-              {isEnglish ? "ABOUT US" : "NOSOTROS"}
+              {isEnglish ? "ABOUT" : "NOSOTROS"}
             </a>
 
             <a
@@ -112,9 +130,7 @@ export default function HeaderMobile() {
                 href="/"
                 onClick={closeMenu}
                 className={`transition ${
-                  isEnglish
-                    ? "text-zinc-500"
-                    : "text-amber-400"
+                  isEnglish ? "text-zinc-500" : "text-amber-400"
                 }`}
               >
                 ES
@@ -124,9 +140,7 @@ export default function HeaderMobile() {
                 href="/en"
                 onClick={closeMenu}
                 className={`transition ${
-                  isEnglish
-                    ? "text-amber-400"
-                    : "text-zinc-500"
+                  isEnglish ? "text-amber-400" : "text-zinc-500"
                 }`}
               >
                 EN

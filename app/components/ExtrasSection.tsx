@@ -43,7 +43,7 @@ export default function ExtrasSection() {
       ];
 
   return (
-    <section id="extras" className="bg-[#050505] py-20 md:py-28">
+    <section id="gastronomia" className="bg-[#050505] py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
 
         <FadeIn>

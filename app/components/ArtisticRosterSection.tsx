@@ -497,7 +497,7 @@ export default function ArtisticRosterSection() {
   )}`;
 
   return (
-    <section id="experiencias" className="bg-black py-24 md:py-36">
+    <section id="artistas" className="bg-black py-24 md:py-36">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         <FadeIn>
           <div className="mx-auto max-w-4xl text-center">
