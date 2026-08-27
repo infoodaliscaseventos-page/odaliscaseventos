@@ -71,22 +71,22 @@ export default function GallerySection() {
           </div>
         </FadeIn>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           {images.map((image, index) => (
             <FadeIn
               key={image.src}
               delay={index * 0.1}
             >
-              <div className="group relative overflow-hidden rounded-[28px] bg-zinc-900">
+              <div className="group relative aspect-[4/5] overflow-hidden rounded-[28px] bg-black">
                 <Image
                   src={image.src}
                   alt={image.alt}
                   width={1200}
-                  height={900}
-                  className="h-[320px] w-full object-cover transition duration-700 group-hover:scale-105 md:h-[440px]"
+                  height={1500}
+                  className="h-full w-full object-contain transition duration-700 group-hover:scale-[1.01]"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
               </div>
             </FadeIn>
           ))}

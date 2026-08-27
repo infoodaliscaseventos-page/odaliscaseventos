@@ -3,6 +3,7 @@ import Hero from "../components/Hero";
 import ExperienceSection from "../components/ExperienceSection";
 import HospitalitySection from "../components/HospitalitySection";
 import ArtisticRosterSection from "../components/ArtisticRosterSection";
+import BestialSection from "../components/BestialSection";
 import ExtrasSection from "../components/ExtrasSection";
 import BorderlessSection from "../components/BorderlessSection";
 import BenefitsSection from "../components/BenefitsSection";
@@ -24,6 +25,8 @@ export default function EnglishHome() {
       <HospitalitySection />
 
       <ArtisticRosterSection />
+
+      <BestialSection />
 
       <ExtrasSection />
 
