@@ -10,16 +10,19 @@ export default function Hero() {
 
   return (
     <section className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden bg-black">
+
       {/* VIDEO */}
       <video
         autoPlay
         muted
         loop
         playsInline
+        preload="auto"
+        poster="/media/hero-video-poster.jpg"
         className="absolute h-full w-full object-cover md:h-[90%] md:w-[90%]"
       >
         <source
-          src="/images/hero/hero-web-new.mp4"
+          src="/images/hero/hero-web-mobile-optimized.mp4"
           type="video/mp4"
         />
       </video>
@@ -29,6 +32,7 @@ export default function Hero() {
 
       {/* CONTENT */}
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center px-6 pb-16 pt-28 text-center md:px-10 md:pb-20">
+
         {/* LOGO */}
         <motion.div
           initial={{ opacity: 0, y: -15 }}
@@ -73,7 +77,7 @@ export default function Hero() {
 
           {/* BUTTONS */}
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            {/* BOTÓN PRINCIPAL */}
+
             <a
               href={
                 isEnglish
@@ -87,18 +91,13 @@ export default function Hero() {
               {isEnglish ? "Design my event" : "Diseñar mi evento"}
             </a>
 
-            {/* BOTÓN SECUNDARIO */}
             <a
               href={isEnglish ? "/en#experiencias" : "#experiencias"}
-              className="
-                rounded-full border border-white px-7 py-3 text-center
-                text-xs text-white transition-all duration-300
-                hover:bg-white hover:text-black
-                md:px-8 md:py-3.5 md:text-sm
-              "
+              className="rounded-full border border-white px-7 py-3 text-center text-xs text-white transition-all duration-300 hover:bg-white hover:text-black md:px-8 md:py-3.5 md:text-sm"
             >
               {isEnglish ? "View experiences" : "Ver experiencias"}
             </a>
+
           </div>
         </motion.div>
       </div>
