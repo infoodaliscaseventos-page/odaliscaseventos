@@ -14,7 +14,7 @@ type Artist = {
 
 const artists: Artist[] = [
   {
-    image: "/media/artists/Julieta/julieta.jpg",
+    image: "/media/artists/Julieta/julieta-web.jpg",
     video: "/media/artists/Julieta/Julieta-web-compressed.mp4",
     poster: "/media/artists/Julieta/Julieta-web-compressed-poster.jpg",
   },
