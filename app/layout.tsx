@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import WhatsAppButton from "./components/WhatsAppButton";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   description:
     "Shows árabes, bailarinas, música árabe en vivo y producción artística para eventos privados, casamientos, hoteles, restaurantes y eventos corporativos.",
 
-    keywords: [
+  keywords: [
     "odaliscas eventos",
     "odaliscas",
     "odaliscas para eventos",
@@ -222,7 +223,10 @@ export default function RootLayout({
         />
 
         {children}
+
         <Analytics />
+
+        <WhatsAppButton />
       </body>
     </html>
   );
