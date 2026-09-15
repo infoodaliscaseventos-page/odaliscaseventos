@@ -22,8 +22,8 @@ export default function BestialSection() {
 
           <p className="mt-5 text-base leading-8 text-zinc-400 md:text-lg md:leading-9">
             {isEnglish
-              ? "For more than two years, Odaliscas Eventos has been part of the resident artistic team at Bestial Fly Bar, creating live performances and Arabic-inspired experiences for one of Buenos Aires' most distinctive rooftop venues."
-              : "Desde hace más de dos años, Odaliscas Eventos forma parte del staff artístico residente de Bestial Fly Bar, desarrollando performances en vivo y experiencias inspiradas en la cultura árabe en uno de los rooftops más distintivos de Buenos Aires."}
+              ? "Odaliscas Eventos is part of the resident artistic team at Bestial Fly Bar, creating live performances and Arabic-inspired experiences for one of Buenos Aires' most distinctive rooftop venues."
+              : "Odaliscas Eventos forma parte del staff artístico residente de Bestial Fly Bar, desarrollando performances en vivo y experiencias inspiradas en la cultura árabe en uno de los rooftops más distintivos de Buenos Aires."}
           </p>
         </div>
 
