@@ -180,6 +180,7 @@ function ArtistCard({
             fill
             priority={delay <= 0.1}
             sizes="(max-width: 768px) 100vw, 50vw"
+            unoptimized
             className={`object-cover transition-all duration-700 ${
               isPlaying
                 ? "scale-105 opacity-0"
