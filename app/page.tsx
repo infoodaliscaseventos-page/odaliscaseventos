@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import ExperienceSection from "./components/ExperienceSection";
+import PrivateEventsSection from "./components/PrivateEventsSection";
 import HospitalitySection from "./components/HospitalitySection";
 import ArtisticRosterSection from "./components/ArtisticRosterSection";
 import BestialSection from "./components/BestialSection";
@@ -21,6 +22,8 @@ export default function Home() {
       <Hero />
 
       <ExperienceSection />
+
+      <PrivateEventsSection />
 
       <HospitalitySection />
 
