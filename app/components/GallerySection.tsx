@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -16,10 +17,10 @@ export default function GallerySection() {
         : "Show de danza del vientre para evento privado",
     },
     {
-      src: "/images/gallery/IMG_1606.PNG",
+      src: "/images/ambience/arabic-live-music.png",
       alt: isEnglish
-        ? "Arabic musicians performing live at an event"
-        : "Músicos árabes en vivo durante un evento",
+        ? "Live Arabic music and traditional instruments"
+        : "Música árabe en vivo con instrumentos tradicionales",
     },
     {
       src: "/images/gallery/IMG_1607.PNG",
