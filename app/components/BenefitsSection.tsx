@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -12,14 +13,12 @@ export default function BenefitsSection() {
         "Professional dancers",
         "Live music",
         "Arabic percussion",
-        "Themed ambiance",
         "Full production",
       ]
     : [
         "Bailarinas profesionales",
         "Música en vivo",
         "Percusión árabe",
-        "Ambientación temática",
         "Producción integral",
       ];
 
